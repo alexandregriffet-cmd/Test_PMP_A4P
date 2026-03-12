@@ -1,14 +1,13 @@
-# A4P – PMP + MBTI + Action Types
+# Test_PMP_A4P — version corrigée
 
-Version finale avec :
-- PMP mental : activation, attention, régulation, engagement
-- traduction MBTI interne : E/I, S/N, T/F, J/P
-- correspondance automatique MBTI → Action Types
+Cette version affiche clairement dans le rapport :
 
-## Exemple
+**MBTI : XXXX → Préférence motrice : YZ**
+
+Exemples :
+- ISTJ → D4
 - ENFP → R1
-- INTJ → C4
-- ISFP → G2
+- ENTJ → C3
 
 ## Fichiers
 - index.html
@@ -17,7 +16,7 @@ Version finale avec :
 - logo-a4p.svg
 - favicon.svg
 
-## Limite honnête
-La traduction MBTI et la correspondance Action Types sont utilisées ici comme lecture interne d’accompagnement. Ce n’est pas un test MBTI officiel.
+## Mise à jour GitHub
+Remplace les fichiers existants par ceux-ci à la racine de ton dépôt, puis republie GitHub Pages.
 
 Date de génération : 2026-03-12
