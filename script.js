@@ -3,9 +3,11 @@ const QUESTIONS = [{"id": 1, "dimension": "activation", "text": "Dans les moment
 const DIMENSIONS = {"activation": "Activation", "attention": "Attention", "regulation": "Régulation", "engagement": "Engagement", "cognition": "Cognition", "action": "Action"};
 const REVERSE_IDS = new Set([2, 4, 6, 9, 11, 14, 18, 22, 25, 27, 30, 33, 35, 38, 40, 42, 46]);
 const ANALYTICAL_IDS = new Set([65, 67, 69, 71, 73, 75, 77, 78, 81]);
-const INTUITIVE_IDS = new Set([68, 70, 72, 76, 79, 80, 82, 66, 74]);
-const TECHNICAL_IDS = new Set([83, 87, 91, 95, 99, 85, 93, 97, 89]);
-const ADAPTIVE_IDS = new Set([84, 86, 88, 90, 92, 94, 96, 98, 100]);
+const INTUITIVE_IDS = new Set([66, 68, 70, 72, 74, 76, 79, 80, 82]);
+const TECHNICAL_IDS = new Set([83, 87, 91, 95, 99]);
+const SENSORIAL_IDS = new Set([85, 89, 93, 97]);
+const STRATEGIC_IDS = new Set([86, 90, 94, 98]);
+const CREATIVE_IDS = new Set([84, 88, 92, 96, 100]);
 
 const scaleLabels = {1:'Jamais',2:'Rarement',3:'Parfois',4:'Souvent',5:'Toujours'};
 let currentIndex = 0;
@@ -34,24 +36,25 @@ const els = {
   consentBox: document.getElementById('consentBox'),
   identityLine: document.getElementById('identityLine'),
   mainProfile: document.getElementById('mainProfile'),
-  secondaryProfile: document.getElementById('secondaryProfile'),
+  motorProfile: document.getElementById('motorProfile'),
+  motorProfile2: document.getElementById('motorProfile2'),
   profileText: document.getElementById('profileText'),
   scoreGrid: document.getElementById('scoreGrid'),
+  preferenceGrid: document.getElementById('preferenceGrid'),
   strengthsList: document.getElementById('strengthsList'),
   watchoutsList: document.getElementById('watchoutsList'),
   planList: document.getElementById('planList'),
   playerSummary: document.getElementById('playerSummary'),
   coachSummary: document.getElementById('coachSummary'),
-  parentSummary: document.getElementById('parentSummary'),
-  radarCanvas: document.getElementById('radarCanvas'),
+  motorSummary: document.getElementById('motorSummary'),
+  pmpRadar: document.getElementById('pmpRadar'),
   exportJsonBtn: document.getElementById('exportJsonBtn'),
-  exportCsvBtn: document.getElementById('exportCsvBtn'),
   printBtn: document.getElementById('printBtn'),
   restartBtn: document.getElementById('restartBtn'),
 };
 
 function init() {
-  const saved = JSON.parse(localStorage.getItem('a4p_mpm_complete_state') || '{}');
+  const saved = JSON.parse(localStorage.getItem('a4p_pmp_actiontypes_v2') || '{}');
   answers = saved.answers || {};
   currentIndex = saved.currentIndex || 0;
   if (!els.assessmentDate.value) els.assessmentDate.value = new Date().toISOString().slice(0,10);
@@ -80,50 +83,30 @@ function meta() {
 }
 
 function saveState() {
-  localStorage.setItem('a4p_mpm_complete_state', JSON.stringify({
-    answers,
-    currentIndex,
-    meta: meta()
-  }));
+  localStorage.setItem('a4p_pmp_actiontypes_v2', JSON.stringify({answers, currentIndex, meta: meta()}));
 }
 
 function attachEvents() {
   els.startBtn.addEventListener('click', startTest);
   els.demoBtn.addEventListener('click', loadDemo);
   els.saveBtn.addEventListener('click', () => { saveState(); alert('Progression sauvegardée sur cet appareil.'); });
-
   [els.athleteName, els.athleteSport, els.athleteAge, els.assessmentDate, els.athleteClub, els.assessorName, els.consentBox].forEach(el => {
     el.addEventListener('input', saveState);
     el.addEventListener('change', saveState);
   });
-
-  els.prevBtn.addEventListener('click', () => {
-    if (currentIndex > 0) { currentIndex--; saveState(); renderQuestion(); }
-  });
-
+  els.prevBtn.addEventListener('click', () => { if (currentIndex > 0) { currentIndex--; saveState(); renderQuestion(); }});
   els.nextBtn.addEventListener('click', () => {
     const q = QUESTIONS[currentIndex];
     if (!answers[q.id]) { alert('Sélectionne une réponse pour continuer.'); return; }
-    if (currentIndex < QUESTIONS.length - 1) {
-      currentIndex++;
-      saveState();
-      renderQuestion();
-    } else {
-      showResults();
-    }
+    if (currentIndex < QUESTIONS.length - 1) { currentIndex++; saveState(); renderQuestion(); } else { showResults(); }
   });
-
   els.exportJsonBtn.addEventListener('click', exportJSON);
-  els.exportCsvBtn.addEventListener('click', exportCSV);
   els.printBtn.addEventListener('click', () => window.print());
   els.restartBtn.addEventListener('click', restart);
 }
 
 function startTest() {
-  if (!els.consentBox.checked) {
-    alert("Coche d'abord la case de confirmation d’usage.");
-    return;
-  }
+  if (!els.consentBox.checked) { alert("Coche d'abord la case de confirmation d’usage."); return; }
   els.metaCard.classList.remove('hidden');
   els.testCard.classList.remove('hidden');
   els.resultsCard.classList.add('hidden');
@@ -153,11 +136,7 @@ function renderQuestion() {
     btn.type = 'button';
     btn.className = answers[q.id] === score ? 'active' : '';
     btn.innerHTML = `<div>${score}</div><small>${scaleLabels[score]}</small>`;
-    btn.addEventListener('click', () => {
-      answers[q.id] = score;
-      saveState();
-      renderQuestion();
-    });
+    btn.addEventListener('click', () => { answers[q.id] = score; saveState(); renderQuestion(); });
     els.scale.appendChild(btn);
   }
   els.prevBtn.disabled = currentIndex === 0;
@@ -168,128 +147,98 @@ function transformedValue(qid, value) {
   return REVERSE_IDS.has(qid) ? 6 - value : value;
 }
 
+function calcAverage(ids, reverse=false) {
+  let total = 0, count = 0;
+  ids.forEach(id => {
+    const v = Number(answers[id] || 0);
+    if (!v) return;
+    total += reverse ? transformedValue(id, v) : v;
+    count += 1;
+  });
+  return count ? Math.round((total / (count * 5)) * 100) : 0;
+}
+
 function computeScores() {
-  const raw = {activation: [], attention: [], regulation: [], engagement: [], cognition: [], action: []};
-  QUESTIONS.forEach(q => {
-    const value = Number(answers[q.id] || 0);
-    raw[q.dimension].push(value ? transformedValue(q.id, value) : 0);
-  });
-  const scores = {};
-  Object.entries(raw).forEach(([dim, vals]) => {
-    const answered = vals.filter(v => v > 0);
-    const total = answered.reduce((a,b) => a + b, 0);
-    const max = answered.length * 5;
-    scores[dim] = answered.length ? Math.round((total / max) * 100) : 0;
-  });
-  const cognitionBreakdown = calcSubscale(ANALYTICAL_IDS, INTUITIVE_IDS);
-  const actionBreakdown = calcSubscale(TECHNICAL_IDS, ADAPTIVE_IDS);
-  return { scores, cognitionBreakdown, actionBreakdown };
-}
-
-function calcSubscale(setA, setB) {
-  let a = 0, b = 0, countA = 0, countB = 0;
-  QUESTIONS.forEach(q => {
-    const val = Number(answers[q.id] || 0);
-    if (!val) return;
-    if (setA.has(q.id)) { a += val; countA++; }
-    if (setB.has(q.id)) { b += val; countB++; }
-  });
-  return {
-    a: countA ? Math.round((a / (countA * 5)) * 100) : 0,
-    b: countB ? Math.round((b / (countB * 5)) * 100) : 0
+  const pmp = {
+    activation: calcAverage([...Array(16).keys()].map(i => i+1), true),
+    attention: calcAverage([...Array(16).keys()].map(i => i+17), true),
+    regulation: calcAverage([...Array(16).keys()].map(i => i+33), true),
+    engagement: calcAverage([...Array(16).keys()].map(i => i+49), false)
   };
+  const cognition = {
+    analytique: calcAverage([...ANALYTICAL_IDS], false),
+    intuitif: calcAverage([...INTUITIVE_IDS], false)
+  };
+  const motor = {
+    technique: calcAverage([...TECHNICAL_IDS], false),
+    sensoriel: calcAverage([...SENSORIAL_IDS], false),
+    strategique: calcAverage([...STRATEGIC_IDS], false),
+    creatif: calcAverage([...CREATIVE_IDS], false)
+  };
+  return { pmp, cognition, motor };
 }
 
-function pickProfiles(scores, cognitionBreakdown, actionBreakdown) {
-  const activation = scores.activation;
-  const attention = scores.attention;
-  const regulation = scores.regulation;
-  const engagement = scores.engagement;
-  const analytic = cognitionBreakdown.a;
-  const intuitive = cognitionBreakdown.b;
-  const technical = actionBreakdown.a;
-  const adaptive = actionBreakdown.b;
-
+function pickMentalProfile(pmp, cognition) {
   const candidates = [
-    { name:'Compétiteur', value:(activation*0.45 + engagement*0.35 + attention*0.2), text:'Le joueur mobilise bien son énergie dans l’enjeu et s’engage fortement dans l’action.' },
-    { name:'Régulateur', value:(regulation*0.5 + attention*0.3 + engagement*0.2), text:'Le joueur retrouve assez vite son calme et sa stabilité après les perturbations.' },
-    { name:'Stratège', value:(analytic*0.45 + attention*0.2 + regulation*0.15 + engagement*0.2), text:'Le joueur comprend, anticipe et organise son jeu avec lucidité.' },
-    { name:'Technicien', value:(technical*0.45 + analytic*0.2 + attention*0.2 + engagement*0.15), text:'Le joueur recherche la précision, la répétition utile et la maîtrise du geste.' },
-    { name:'Créatif', value:(adaptive*0.35 + intuitive*0.35 + activation*0.15 + engagement*0.15), text:'Le joueur performe quand il dispose de liberté, d’adaptation et d’élan.' },
-    { name:'Endurant', value:(engagement*0.5 + regulation*0.2 + attention*0.15 + activation*0.15), text:'Le joueur avance avec persévérance et capacité à tenir dans la durée.' },
-    { name:'Méthodique', value:(analytic*0.35 + technical*0.3 + regulation*0.2 + attention*0.15), text:'Le joueur progresse dans un cadre clair, structuré et répétable.' },
-    { name:'Instinctif', value:(adaptive*0.4 + intuitive*0.3 + activation*0.2 + attention*0.1), text:'Le joueur agit vite, capte les opportunités et se met en mouvement spontanément.' },
-    { name:'Équilibré', value:(activation + attention + regulation + engagement + analytic + adaptive)/6, text:'Le joueur présente un fonctionnement globalement homogène sur l’ensemble des dimensions.' }
+    {name:'Compétiteur', value:pmp.activation*0.45 + pmp.engagement*0.35 + pmp.attention*0.20},
+    {name:'Régulateur', value:pmp.regulation*0.50 + pmp.attention*0.30 + pmp.engagement*0.20},
+    {name:'Stratège', value:cognition.analytique*0.45 + pmp.attention*0.20 + pmp.regulation*0.15 + pmp.engagement*0.20},
+    {name:'Créatif', value:cognition.intuitif*0.40 + pmp.activation*0.20 + pmp.engagement*0.20 + pmp.attention*0.20},
+    {name:'Endurant', value:pmp.engagement*0.55 + pmp.regulation*0.20 + pmp.attention*0.15 + pmp.activation*0.10},
+    {name:'Méthodique', value:cognition.analytique*0.40 + pmp.attention*0.25 + pmp.regulation*0.20 + pmp.engagement*0.15}
   ];
-  return [...candidates].sort((x,y) => y.value - x.value).slice(0,2);
+  return [...candidates].sort((a,b) => b.value-a.value)[0].name;
 }
 
-function buildNarrative(main, secondary, scores, cognitionBreakdown, actionBreakdown) {
-  const cog = cognitionBreakdown.a >= cognitionBreakdown.b ? 'plutôt analytique' : 'plutôt intuitif';
-  const act = actionBreakdown.a >= actionBreakdown.b ? 'avec une dominante technique' : 'avec une dominante adaptative';
-  const strongest = Object.entries(scores).sort((a,b) => b[1]-a[1])[0];
-  const weakest = Object.entries(scores).sort((a,b) => a[1]-b[1])[0];
-  return `Profil principal : <strong>${main.name}</strong>. Profil secondaire : <strong>${secondary.name}</strong>.<br><br>
-  Le joueur présente une dominante ${cog} et agit ${act}. Sa dimension la plus haute est <strong>${DIMENSIONS[strongest[0]]}</strong> (${strongest[1]}/100), tandis que son principal axe de progression se situe sur <strong>${DIMENSIONS[weakest[0]]}</strong> (${weakest[1]}/100). ${main.text} ${secondary.text}`;
+function pickMotorProfiles(motor) {
+  const arr = [
+    {name:'Technique', value:motor.technique, desc:'Recherche de précision, répétition et maîtrise du geste.'},
+    {name:'Sensoriel', value:motor.sensoriel, desc:'Recherche d’appuis, de rythme et de ressenti corporel.'},
+    {name:'Stratégique', value:motor.strategique, desc:'Capacité à ajuster le geste à la situation et au contexte.'},
+    {name:'Créatif', value:motor.creatif, desc:'Liberté, spontanéité et adaptation rapide dans l’action.'}
+  ].sort((a,b)=>b.value-a.value);
+  return arr.slice(0,2);
 }
 
-function recommendations(scores, cognitionBreakdown, actionBreakdown) {
-  const strengths = [];
-  const watchouts = [];
-  const plan = [];
-
-  if (scores.activation >= 70) strengths.push("Bonne mobilisation énergétique dans les moments d’enjeu.");
-  else if (scores.activation <= 55) watchouts.push("L’activation compétitive peut être insuffisante ou irrégulière.");
-  else strengths.push("Activation globalement adaptée à la performance.");
-
-  if (scores.attention >= 70) strengths.push("Stabilité attentionnelle utile pour rester dans l’instant.");
-  else watchouts.push("La concentration peut décrocher après perturbation ou distraction.");
-  plan.push(scores.attention < 70 ? "Installer une routine de recentrage de 5 à 10 secondes avant chaque action clé." : "Entretenir les routines de concentration déjà efficaces.");
-
-  if (scores.regulation >= 70) strengths.push("Bonne capacité à revenir au calme après erreur ou tension.");
-  else watchouts.push("La régulation émotionnelle mérite un travail ciblé après erreur ou frustration.");
-  plan.push(scores.regulation < 70 ? "Travailler respiration 4-6, mot-clé de reset et débrief express après erreur." : "Consolider les stratégies de retour au calme en situation réelle.");
-
-  if (scores.engagement >= 75) strengths.push("Engagement et persévérance élevés dans la progression.");
-  else watchouts.push("La motivation ou la constance peuvent varier selon le contexte.");
-  plan.push(scores.engagement < 75 ? "Clarifier objectifs courts, indicateurs de progrès et contrat d’engagement hebdomadaire." : "Utiliser l’engagement élevé comme levier de leadership et de régularité.");
-
-  if (cognitionBreakdown.a >= cognitionBreakdown.b) strengths.push("Le joueur apprend bien quand il comprend et structure le jeu.");
-  else strengths.push("Le joueur apprend bien par sensation, intuition et adaptation.");
-  plan.push(cognitionBreakdown.a >= cognitionBreakdown.b ? "Proposer consignes claires, repères techniques et temps d’analyse vidéo." : "Proposer mises en situation, feedback sensoriel et liberté d’essai.");
-
-  if (actionBreakdown.a >= actionBreakdown.b) strengths.push("Dominante technique utile pour la précision et la répétition.");
-  else strengths.push("Dominante adaptative utile pour la spontanéité et l’ajustement.");
-  plan.push(actionBreakdown.a >= actionBreakdown.b ? "Conserver des repères simples et répétables avant d’ouvrir l’adaptation." : "Démarrer avec un cadre léger puis laisser de la liberté dans l’exécution.");
-
-  return { strengths: strengths.slice(0,5), watchouts: watchouts.slice(0,5), plan: plan.slice(0,5) };
+function buildNarrative(mentalProfile, motor1, motor2, scores) {
+  const pmp = scores.pmp, cognition = scores.cognition, motor = scores.motor;
+  const cogLabel = cognition.analytique >= cognition.intuitif ? 'plutôt analytique' : 'plutôt intuitif';
+  return `Le profil mental dominant est <strong>${mentalProfile}</strong>. La lecture cognitive est <strong>${cogLabel}</strong>.
+  La préférence motrice dominante est <strong>${motor1.name}</strong>, avec une composante secondaire <strong>${motor2.name}</strong>.
+  Cela signifie que le joueur a tendance à entrer dans l’action en s’appuyant sur : ${motor1.desc} ${motor2.desc}`;
 }
 
-function buildAudienceSummaries(main, secondary, scores, cognitionBreakdown, actionBreakdown) {
-  const player = `
-    Tu disposes d’un profil <strong>${main.name}</strong> avec une couleur secondaire <strong>${secondary.name}</strong>.
-    Ton meilleur levier actuel se situe sur <strong>${bestDimension(scores)}</strong>.
-    L’objectif n’est pas d’être parfait partout, mais de stabiliser ce qui te rend performant quand l’enjeu monte.
-  `;
-  const coach = `
-    Profil principal <strong>${main.name}</strong>. Lecture utile : privilégier un cadre
-    ${cognitionBreakdown.a >= cognitionBreakdown.b ? "clair, structuré et explicite" : "souple, expérientiel et orienté sensations"},
-    avec une entrée dans l’action ${actionBreakdown.a >= actionBreakdown.b ? "plutôt technique et répétable" : "plutôt adaptative et ouverte"}.
-    Dimension la plus fragile : <strong>${worstDimension(scores)}</strong>.
-  `;
-  const parent = `
-    Le sportif semble mieux progresser dans un environnement qui combine exigence et repères stables.
-    Il sera utile d’éviter les commentaires trop chargés juste après l’erreur et de valoriser le progrès,
-    l’engagement et la qualité de reconcentration.
-  `;
-  return { player, coach, parent };
+function buildRecommendations(scores, mentalProfile, motor1) {
+  const p = scores.pmp, c = scores.cognition;
+  const strengths = [], watchouts = [], plan = [];
+
+  if (p.activation >= 70) strengths.push("Bonne mobilisation énergétique dans les moments d’enjeu.");
+  else watchouts.push("L’activation compétitive peut manquer de stabilité.");
+  if (p.attention >= 70) strengths.push("Capacité utile à rester dans l’instant de jeu.");
+  else watchouts.push("La concentration peut décrocher après perturbation.");
+  if (p.regulation >= 70) strengths.push("Retour au calme assez rapide après erreur ou tension.");
+  else watchouts.push("La régulation émotionnelle mérite un travail ciblé après frustration.");
+  if (p.engagement >= 75) strengths.push("Engagement et persévérance élevés dans la progression.");
+  else watchouts.push("L’engagement peut varier selon le contexte.");
+  strengths.push(c.analytique >= c.intuitif ? "Apprend bien quand il comprend et structure le jeu." : "Apprend bien par intuition, sensation et expérimentation.");
+  strengths.push(`Préférence motrice dominante : ${motor1.name}.`);
+
+  plan.push(p.attention < 70 ? "Installer une routine de recentrage de 5 à 10 secondes avant chaque action clé." : "Consolider les routines de concentration déjà efficaces.");
+  plan.push(p.regulation < 70 ? "Travailler respiration 4-6, reset mental et débrief court après erreur." : "Entretenir les routines de retour au calme en contexte compétitif.");
+  plan.push(c.analytique >= c.intuitif ? "Donner des repères clairs, vidéos courtes et consignes structurées." : "Utiliser davantage l’apprentissage par mise en situation et feedback sensoriel.");
+  if (motor1.name === 'Technique') plan.push("Commencer par la répétition et la précision avant d’ouvrir l’adaptation.");
+  if (motor1.name === 'Sensoriel') plan.push("Renforcer les consignes de ressenti, d’appuis et de rythme.");
+  if (motor1.name === 'Stratégique') plan.push("Varier les contextes pour développer l’ajustement et la lecture de situation.");
+  if (motor1.name === 'Créatif') plan.push("Laisser une marge de liberté dans l’exécution pour conserver la spontanéité.");
+  return {strengths: strengths.slice(0,5), watchouts: watchouts.slice(0,5), plan: plan.slice(0,5)};
 }
 
-function bestDimension(scores) {
-  return DIMENSIONS[Object.entries(scores).sort((a,b) => b[1]-a[1])[0][0]];
-}
-function worstDimension(scores) {
-  return DIMENSIONS[Object.entries(scores).sort((a,b) => a[1]-b[1])[0][0]];
+function buildAudienceSummaries(scores, mentalProfile, motor1, motor2) {
+  const p = scores.pmp, c = scores.cognition;
+  const player = `Tu disposes d’un profil mental <strong>${mentalProfile}</strong> avec une préférence motrice dominante <strong>${motor1.name}</strong>. Tu progresses mieux quand l’entraînement respecte ta manière naturelle d’entrer dans le geste.`;
+  const coach = `Lecture coach : mental principal <strong>${mentalProfile}</strong>, cognition ${c.analytique >= c.intuitif ? '<strong>analytique</strong>' : '<strong>intuitive</strong>'}, moteur dominant <strong>${motor1.name}</strong> puis <strong>${motor2.name}</strong>. Ajuster le feedback, les consignes et la progression technique en conséquence.`;
+  const motor = `Lecture Action Types : le joueur montre une dominante <strong>${motor1.name}</strong> (${motor1.value}/100) avec une secondaire <strong>${motor2.name}</strong> (${motor2.value}/100). Cette lecture aide à choisir le bon type d’apprentissage : répétition et précision, ressenti et rythme, adaptation stratégique, ou liberté créative.`;
+  return {player, coach, motor};
 }
 
 function showResults() {
@@ -299,42 +248,61 @@ function showResults() {
     if (!ok) return;
   }
   saveState();
-  const { scores, cognitionBreakdown, actionBreakdown } = computeScores();
-  const [main, secondary] = pickProfiles(scores, cognitionBreakdown, actionBreakdown);
-  const recos = recommendations(scores, cognitionBreakdown, actionBreakdown);
-  const summaries = buildAudienceSummaries(main, secondary, scores, cognitionBreakdown, actionBreakdown);
-
-  els.metaCard.classList.remove('hidden');
-  els.testCard.classList.add('hidden');
-  els.resultsCard.classList.remove('hidden');
+  const scores = computeScores();
+  const mentalProfile = pickMentalProfile(scores.pmp, scores.cognition);
+  const [motor1, motor2] = pickMotorProfiles(scores.motor);
+  const recos = buildRecommendations(scores, mentalProfile, motor1);
+  const summaries = buildAudienceSummaries(scores, mentalProfile, motor1, motor2);
 
   const m = meta();
   const parts = [m.name || 'Sportif', m.sport || 'Sport non renseigné', m.age ? `${m.age} ans` : '', m.club || '', m.date || ''].filter(Boolean);
   els.identityLine.textContent = parts.join(' · ');
+  els.mainProfile.textContent = mentalProfile;
+  els.motorProfile.textContent = `${motor1.name} (${motor1.value}/100)`;
+  els.motorProfile2.textContent = `${motor2.name} (${motor2.value}/100)`;
+  els.profileText.innerHTML = buildNarrative(mentalProfile, motor1, motor2, scores);
 
-  els.mainProfile.textContent = main.name;
-  els.secondaryProfile.textContent = secondary.name;
-  els.profileText.innerHTML = buildNarrative(main, secondary, scores, cognitionBreakdown, actionBreakdown);
-
-  renderScoreGrid(scores);
+  renderPmpGrid(scores.pmp);
+  renderPreferenceGrid(scores.cognition, scores.motor);
   renderList(els.strengthsList, recos.strengths);
   renderList(els.watchoutsList, recos.watchouts);
   renderList(els.planList, recos.plan);
   els.playerSummary.innerHTML = summaries.player;
   els.coachSummary.innerHTML = summaries.coach;
-  els.parentSummary.innerHTML = summaries.parent;
-  drawRadar(scores);
+  els.motorSummary.innerHTML = summaries.motor;
+  drawPmpRadar(scores.pmp);
 
+  els.metaCard.classList.remove('hidden');
+  els.testCard.classList.add('hidden');
+  els.resultsCard.classList.remove('hidden');
   window.scrollTo({top: els.resultsCard.offsetTop - 12, behavior:'smooth'});
 }
 
-function renderScoreGrid(scores) {
+function renderPmpGrid(pmp) {
   els.scoreGrid.innerHTML = '';
-  Object.entries(scores).forEach(([key, val]) => {
+  Object.entries(pmp).forEach(([key, val]) => {
     const card = document.createElement('div');
     card.className = 'score-card';
     card.innerHTML = `<div class="name">${DIMENSIONS[key]}</div><div class="value">${val}</div><div class="meter"><span style="width:${val}%"></span></div>`;
     els.scoreGrid.appendChild(card);
+  });
+}
+
+function renderPreferenceGrid(cognition, motor) {
+  els.preferenceGrid.innerHTML = '';
+  const prefs = [
+    ['Cognition analytique', cognition.analytique],
+    ['Cognition intuitive', cognition.intuitif],
+    ['Moteur technique', motor.technique],
+    ['Moteur sensoriel', motor.sensoriel],
+    ['Moteur stratégique', motor.strategique],
+    ['Moteur créatif', motor.creatif],
+  ];
+  prefs.forEach(([label, val]) => {
+    const card = document.createElement('div');
+    card.className = 'score-card';
+    card.innerHTML = `<div class="name">${label}</div><div class="value">${val}</div><div class="meter"><span style="width:${val}%"></span></div>`;
+    els.preferenceGrid.appendChild(card);
   });
 }
 
@@ -347,14 +315,14 @@ function renderList(container, items) {
   });
 }
 
-function drawRadar(scores) {
-  const canvas = els.radarCanvas;
+function drawPmpRadar(pmp) {
+  const canvas = els.pmpRadar;
   const ctx = canvas.getContext('2d');
   const w = canvas.width, h = canvas.height;
   ctx.clearRect(0,0,w,h);
   const cx = w/2, cy = h/2, radius = Math.min(w,h)*0.34;
-  const labels = ['Activation','Attention','Cognition','Action','Engagement','Régulation'];
-  const vals = [scores.activation, scores.attention, scores.cognition, scores.action, scores.engagement, scores.regulation];
+  const labels = ['Activation','Attention','Régulation','Engagement'];
+  const vals = [pmp.activation, pmp.attention, pmp.regulation, pmp.engagement];
   const n = labels.length;
 
   for (let level=1; level<=5; level++) {
@@ -380,7 +348,6 @@ function drawRadar(scores) {
     ctx.moveTo(cx,cy); ctx.lineTo(x,y);
     ctx.strokeStyle = 'rgba(130,157,212,0.35)';
     ctx.stroke();
-
     const lx = cx + Math.cos(angle) * (radius + 36);
     const ly = cy + Math.sin(angle) * (radius + 36);
     ctx.fillStyle = '#eef4ff';
@@ -402,65 +369,35 @@ function drawRadar(scores) {
   ctx.fillStyle = 'rgba(121,167,255,0.18)';
   ctx.strokeStyle = 'rgba(212,227,255,0.95)';
   ctx.lineWidth = 3;
-  ctx.fill();
-  ctx.stroke();
+  ctx.fill(); ctx.stroke();
 
   vals.forEach((val, i) => {
     const angle = (-Math.PI/2) + (i * 2*Math.PI/n);
     const r = radius * (val/100);
     const x = cx + Math.cos(angle) * r;
     const y = cy + Math.sin(angle) * r;
-    ctx.beginPath();
-    ctx.arc(x,y,5,0,Math.PI*2);
-    ctx.fillStyle = '#d4e3ff';
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(x,y,5,0,Math.PI*2); ctx.fillStyle = '#d4e3ff'; ctx.fill();
   });
 }
 
 function exportJSON() {
-  const payload = {
-    meta: meta(),
-    answers,
-    analysis: computeScores()
-  };
-  downloadFile('a4p_mpm_resultats.json', JSON.stringify(payload, null, 2), 'application/json');
-}
-
-function exportCSV() {
-  const { scores } = computeScores();
-  const rows = [
-    ['Champ','Valeur'],
-    ['Nom', meta().name],
-    ['Sport', meta().sport],
-    ['Âge', meta().age],
-    ['Club', meta().club],
-    ['Date', meta().date],
-    ['Évaluateur', meta().assessor],
-    ...Object.entries(scores).map(([k,v]) => [DIMENSIONS[k], v])
-  ];
-  const csv = rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g,'""')}"`).join(',')).join('\n');
-  downloadFile('a4p_mpm_resultats.csv', csv, 'text/csv;charset=utf-8;');
-}
-
-function downloadFile(filename, content, mime) {
-  const blob = new Blob([content], {type:mime});
+  const payload = {meta: meta(), answers, analysis: computeScores()};
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = filename;
+  a.download = 'a4p_pmp_actiontypes_resultats.json';
   a.click();
   URL.revokeObjectURL(a.href);
 }
 
 function restart() {
-  if (!confirm('Recommencer le test ? Les réponses en cours seront effacées.')) return;
-  answers = {};
-  currentIndex = 0;
-  localStorage.removeItem('a4p_mpm_complete_state');
+  if (!confirm('Recommencer le test ? Les réponses seront effacées.')) return;
+  answers = {}; currentIndex = 0;
+  localStorage.removeItem('a4p_pmp_actiontypes_v2');
   els.resultsCard.classList.add('hidden');
   els.metaCard.classList.remove('hidden');
   els.testCard.classList.remove('hidden');
   renderQuestion();
-  window.scrollTo({top: els.testCard.offsetTop - 12, behavior:'smooth'});
 }
 
 init();
