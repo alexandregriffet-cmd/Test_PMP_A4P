@@ -13,7 +13,7 @@ let answers = {};
 
 const els = {
   startBtn: document.getElementById('startBtn'),
-  loadDemoBtn: document.getElementById('loadDemoBtn'),
+  demoBtn: document.getElementById('demoBtn'),
   metaCard: document.getElementById('metaCard'),
   testCard: document.getElementById('testCard'),
   resultsCard: document.getElementById('resultsCard'),
@@ -24,10 +24,14 @@ const els = {
   progressBar: document.getElementById('progressBar'),
   prevBtn: document.getElementById('prevBtn'),
   nextBtn: document.getElementById('nextBtn'),
+  saveBtn: document.getElementById('saveBtn'),
   athleteName: document.getElementById('athleteName'),
   athleteSport: document.getElementById('athleteSport'),
   athleteAge: document.getElementById('athleteAge'),
   assessmentDate: document.getElementById('assessmentDate'),
+  athleteClub: document.getElementById('athleteClub'),
+  assessorName: document.getElementById('assessorName'),
+  consentBox: document.getElementById('consentBox'),
   identityLine: document.getElementById('identityLine'),
   mainProfile: document.getElementById('mainProfile'),
   secondaryProfile: document.getElementById('secondaryProfile'),
@@ -36,14 +40,18 @@ const els = {
   strengthsList: document.getElementById('strengthsList'),
   watchoutsList: document.getElementById('watchoutsList'),
   planList: document.getElementById('planList'),
+  playerSummary: document.getElementById('playerSummary'),
+  coachSummary: document.getElementById('coachSummary'),
+  parentSummary: document.getElementById('parentSummary'),
   radarCanvas: document.getElementById('radarCanvas'),
   exportJsonBtn: document.getElementById('exportJsonBtn'),
+  exportCsvBtn: document.getElementById('exportCsvBtn'),
   printBtn: document.getElementById('printBtn'),
   restartBtn: document.getElementById('restartBtn'),
 };
 
 function init() {
-  const saved = JSON.parse(localStorage.getItem('a4p_mpm_state') || '{}');
+  const saved = JSON.parse(localStorage.getItem('a4p_mpm_complete_state') || '{}');
   answers = saved.answers || {};
   currentIndex = saved.currentIndex || 0;
   if (!els.assessmentDate.value) els.assessmentDate.value = new Date().toISOString().slice(0,10);
@@ -52,60 +60,50 @@ function init() {
     els.athleteSport.value = saved.meta.sport || '';
     els.athleteAge.value = saved.meta.age || '';
     els.assessmentDate.value = saved.meta.date || els.assessmentDate.value;
+    els.athleteClub.value = saved.meta.club || '';
+    els.assessorName.value = saved.meta.assessor || '';
+    els.consentBox.checked = !!saved.meta.consent;
   }
   attachEvents();
 }
 
+function meta() {
+  return {
+    name: els.athleteName.value || '',
+    sport: els.athleteSport.value || '',
+    age: els.athleteAge.value || '',
+    date: els.assessmentDate.value || '',
+    club: els.athleteClub.value || '',
+    assessor: els.assessorName.value || '',
+    consent: els.consentBox.checked
+  };
+}
+
 function saveState() {
-  localStorage.setItem('a4p_mpm_state', JSON.stringify({
+  localStorage.setItem('a4p_mpm_complete_state', JSON.stringify({
     answers,
     currentIndex,
-    meta: {
-      name: els.athleteName.value,
-      sport: els.athleteSport.value,
-      age: els.athleteAge.value,
-      date: els.assessmentDate.value
-    }
+    meta: meta()
   }));
 }
 
 function attachEvents() {
-  els.startBtn.addEventListener('click', () => {
-    els.metaCard.classList.remove('hidden');
-    els.testCard.classList.remove('hidden');
-    els.resultsCard.classList.add('hidden');
-    renderQuestion();
-    window.scrollTo({top: els.testCard.offsetTop - 12, behavior:'smooth'});
-  });
+  els.startBtn.addEventListener('click', startTest);
+  els.demoBtn.addEventListener('click', loadDemo);
+  els.saveBtn.addEventListener('click', () => { saveState(); alert('Progression sauvegardée sur cet appareil.'); });
 
-  els.loadDemoBtn.addEventListener('click', () => {
-    answers = {};
-    QUESTIONS.forEach(q => {
-      const base = {activation:4, attention:3, regulation:3, engagement:5, cognition:4, action:4}[q.dimension];
-      answers[q.id] = Math.max(1, Math.min(5, base + (q.id % 3 === 0 ? -1 : 0)));
-    });
-    showResults();
-  });
-
-  [els.athleteName, els.athleteSport, els.athleteAge, els.assessmentDate].forEach(el => {
+  [els.athleteName, els.athleteSport, els.athleteAge, els.assessmentDate, els.athleteClub, els.assessorName, els.consentBox].forEach(el => {
     el.addEventListener('input', saveState);
     el.addEventListener('change', saveState);
   });
 
   els.prevBtn.addEventListener('click', () => {
-    if (currentIndex > 0) {
-      currentIndex--;
-      saveState();
-      renderQuestion();
-    }
+    if (currentIndex > 0) { currentIndex--; saveState(); renderQuestion(); }
   });
 
   els.nextBtn.addEventListener('click', () => {
     const q = QUESTIONS[currentIndex];
-    if (!answers[q.id]) {
-      alert('Sélectionne une réponse pour continuer.');
-      return;
-    }
+    if (!answers[q.id]) { alert('Sélectionne une réponse pour continuer.'); return; }
     if (currentIndex < QUESTIONS.length - 1) {
       currentIndex++;
       saveState();
@@ -116,8 +114,31 @@ function attachEvents() {
   });
 
   els.exportJsonBtn.addEventListener('click', exportJSON);
+  els.exportCsvBtn.addEventListener('click', exportCSV);
   els.printBtn.addEventListener('click', () => window.print());
   els.restartBtn.addEventListener('click', restart);
+}
+
+function startTest() {
+  if (!els.consentBox.checked) {
+    alert("Coche d'abord la case de confirmation d’usage.");
+    return;
+  }
+  els.metaCard.classList.remove('hidden');
+  els.testCard.classList.remove('hidden');
+  els.resultsCard.classList.add('hidden');
+  renderQuestion();
+  window.scrollTo({top: els.testCard.offsetTop - 12, behavior:'smooth'});
+}
+
+function loadDemo() {
+  answers = {};
+  QUESTIONS.forEach(q => {
+    const base = {activation:4, attention:3, regulation:3, engagement:5, cognition:4, action:4}[q.dimension];
+    answers[q.id] = Math.max(1, Math.min(5, base + (q.id % 3 === 0 ? -1 : 0)));
+  });
+  els.consentBox.checked = true;
+  showResults();
 }
 
 function renderQuestion() {
@@ -125,7 +146,7 @@ function renderQuestion() {
   els.questionCounter.textContent = `Question ${currentIndex + 1} / ${QUESTIONS.length}`;
   els.dimensionBadge.textContent = DIMENSIONS[q.dimension];
   els.questionText.textContent = q.text;
-  els.progressBar.style.width = `${(currentIndex / QUESTIONS.length) * 100}%`;
+  els.progressBar.style.width = `${((currentIndex) / QUESTIONS.length) * 100}%`;
   els.scale.innerHTML = '';
   for (let score = 1; score <= 5; score++) {
     const btn = document.createElement('button');
@@ -173,9 +194,10 @@ function calcSubscale(setA, setB) {
     if (setA.has(q.id)) { a += val; countA++; }
     if (setB.has(q.id)) { b += val; countB++; }
   });
-  const scoreA = countA ? Math.round((a / (countA * 5)) * 100) : 0;
-  const scoreB = countB ? Math.round((b / (countB * 5)) * 100) : 0;
-  return { a: scoreA, b: scoreB };
+  return {
+    a: countA ? Math.round((a / (countA * 5)) * 100) : 0,
+    b: countB ? Math.round((b / (countB * 5)) * 100) : 0
+  };
 }
 
 function pickProfiles(scores, cognitionBreakdown, actionBreakdown) {
@@ -199,9 +221,7 @@ function pickProfiles(scores, cognitionBreakdown, actionBreakdown) {
     { name:'Instinctif', value:(adaptive*0.4 + intuitive*0.3 + activation*0.2 + attention*0.1), text:'Le joueur agit vite, capte les opportunités et se met en mouvement spontanément.' },
     { name:'Équilibré', value:(activation + attention + regulation + engagement + analytic + adaptive)/6, text:'Le joueur présente un fonctionnement globalement homogène sur l’ensemble des dimensions.' }
   ];
-
-  const sorted = [...candidates].sort((x,y) => y.value - x.value);
-  return sorted.slice(0,2);
+  return [...candidates].sort((x,y) => y.value - x.value).slice(0,2);
 }
 
 function buildNarrative(main, secondary, scores, cognitionBreakdown, actionBreakdown) {
@@ -209,7 +229,8 @@ function buildNarrative(main, secondary, scores, cognitionBreakdown, actionBreak
   const act = actionBreakdown.a >= actionBreakdown.b ? 'avec une dominante technique' : 'avec une dominante adaptative';
   const strongest = Object.entries(scores).sort((a,b) => b[1]-a[1])[0];
   const weakest = Object.entries(scores).sort((a,b) => a[1]-b[1])[0];
-  return `Profil principal : <strong>${main.name}</strong>. Profil secondaire : <strong>${secondary.name}</strong>.<br><br>Le joueur présente une dominante ${cog} et agit ${act}. Sa dimension la plus haute est <strong>${DIMENSIONS[strongest[0]]}</strong> (${strongest[1]}/100), tandis que son principal axe de progression se situe sur <strong>${DIMENSIONS[weakest[0]]}</strong> (${weakest[1]}/100). ${main.text} ${secondary.text}`;
+  return `Profil principal : <strong>${main.name}</strong>. Profil secondaire : <strong>${secondary.name}</strong>.<br><br>
+  Le joueur présente une dominante ${cog} et agit ${act}. Sa dimension la plus haute est <strong>${DIMENSIONS[strongest[0]]}</strong> (${strongest[1]}/100), tandis que son principal axe de progression se situe sur <strong>${DIMENSIONS[weakest[0]]}</strong> (${weakest[1]}/100). ${main.text} ${secondary.text}`;
 }
 
 function recommendations(scores, cognitionBreakdown, actionBreakdown) {
@@ -244,6 +265,33 @@ function recommendations(scores, cognitionBreakdown, actionBreakdown) {
   return { strengths: strengths.slice(0,5), watchouts: watchouts.slice(0,5), plan: plan.slice(0,5) };
 }
 
+function buildAudienceSummaries(main, secondary, scores, cognitionBreakdown, actionBreakdown) {
+  const player = `
+    Tu disposes d’un profil <strong>${main.name}</strong> avec une couleur secondaire <strong>${secondary.name}</strong>.
+    Ton meilleur levier actuel se situe sur <strong>${bestDimension(scores)}</strong>.
+    L’objectif n’est pas d’être parfait partout, mais de stabiliser ce qui te rend performant quand l’enjeu monte.
+  `;
+  const coach = `
+    Profil principal <strong>${main.name}</strong>. Lecture utile : privilégier un cadre
+    ${cognitionBreakdown.a >= cognitionBreakdown.b ? "clair, structuré et explicite" : "souple, expérientiel et orienté sensations"},
+    avec une entrée dans l’action ${actionBreakdown.a >= actionBreakdown.b ? "plutôt technique et répétable" : "plutôt adaptative et ouverte"}.
+    Dimension la plus fragile : <strong>${worstDimension(scores)}</strong>.
+  `;
+  const parent = `
+    Le sportif semble mieux progresser dans un environnement qui combine exigence et repères stables.
+    Il sera utile d’éviter les commentaires trop chargés juste après l’erreur et de valoriser le progrès,
+    l’engagement et la qualité de reconcentration.
+  `;
+  return { player, coach, parent };
+}
+
+function bestDimension(scores) {
+  return DIMENSIONS[Object.entries(scores).sort((a,b) => b[1]-a[1])[0][0]];
+}
+function worstDimension(scores) {
+  return DIMENSIONS[Object.entries(scores).sort((a,b) => a[1]-b[1])[0][0]];
+}
+
 function showResults() {
   const unanswered = QUESTIONS.filter(q => !answers[q.id]);
   if (unanswered.length) {
@@ -254,16 +302,15 @@ function showResults() {
   const { scores, cognitionBreakdown, actionBreakdown } = computeScores();
   const [main, secondary] = pickProfiles(scores, cognitionBreakdown, actionBreakdown);
   const recos = recommendations(scores, cognitionBreakdown, actionBreakdown);
+  const summaries = buildAudienceSummaries(main, secondary, scores, cognitionBreakdown, actionBreakdown);
 
   els.metaCard.classList.remove('hidden');
   els.testCard.classList.add('hidden');
   els.resultsCard.classList.remove('hidden');
 
-  const name = els.athleteName.value || 'Sportif';
-  const sport = els.athleteSport.value || 'Sport non renseigné';
-  const age = els.athleteAge.value ? `${els.athleteAge.value} ans` : '';
-  const date = els.assessmentDate.value || '';
-  els.identityLine.textContent = `${name} · ${sport}${age ? ' · ' + age : ''}${date ? ' · ' + date : ''}`;
+  const m = meta();
+  const parts = [m.name || 'Sportif', m.sport || 'Sport non renseigné', m.age ? `${m.age} ans` : '', m.club || '', m.date || ''].filter(Boolean);
+  els.identityLine.textContent = parts.join(' · ');
 
   els.mainProfile.textContent = main.name;
   els.secondaryProfile.textContent = secondary.name;
@@ -273,6 +320,9 @@ function showResults() {
   renderList(els.strengthsList, recos.strengths);
   renderList(els.watchoutsList, recos.watchouts);
   renderList(els.planList, recos.plan);
+  els.playerSummary.innerHTML = summaries.player;
+  els.coachSummary.innerHTML = summaries.coach;
+  els.parentSummary.innerHTML = summaries.parent;
   drawRadar(scores);
 
   window.scrollTo({top: els.resultsCard.offsetTop - 12, behavior:'smooth'});
@@ -369,19 +419,34 @@ function drawRadar(scores) {
 
 function exportJSON() {
   const payload = {
-    meta: {
-      name: els.athleteName.value || '',
-      sport: els.athleteSport.value || '',
-      age: els.athleteAge.value || '',
-      date: els.assessmentDate.value || ''
-    },
+    meta: meta(),
     answers,
     analysis: computeScores()
   };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  downloadFile('a4p_mpm_resultats.json', JSON.stringify(payload, null, 2), 'application/json');
+}
+
+function exportCSV() {
+  const { scores } = computeScores();
+  const rows = [
+    ['Champ','Valeur'],
+    ['Nom', meta().name],
+    ['Sport', meta().sport],
+    ['Âge', meta().age],
+    ['Club', meta().club],
+    ['Date', meta().date],
+    ['Évaluateur', meta().assessor],
+    ...Object.entries(scores).map(([k,v]) => [DIMENSIONS[k], v])
+  ];
+  const csv = rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g,'""')}"`).join(',')).join('\n');
+  downloadFile('a4p_mpm_resultats.csv', csv, 'text/csv;charset=utf-8;');
+}
+
+function downloadFile(filename, content, mime) {
+  const blob = new Blob([content], {type:mime});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'a4p_mental_performance_map_resultats.json';
+  a.download = filename;
   a.click();
   URL.revokeObjectURL(a.href);
 }
@@ -390,7 +455,7 @@ function restart() {
   if (!confirm('Recommencer le test ? Les réponses en cours seront effacées.')) return;
   answers = {};
   currentIndex = 0;
-  localStorage.removeItem('a4p_mpm_state');
+  localStorage.removeItem('a4p_mpm_complete_state');
   els.resultsCard.classList.add('hidden');
   els.metaCard.classList.remove('hidden');
   els.testCard.classList.remove('hidden');

@@ -1,27 +1,43 @@
 # A4P – Mental Performance Map
 
-Outil statique prêt à publier sur GitHub Pages.
+Version statique complète prête pour GitHub Pages.
 
-## Contenu
-- `index.html` : interface du test
-- `styles.css` : design
-- `script.js` : logique du test, scoring, radar et export JSON
+## Fichiers
+- `index.html`
+- `styles.css`
+- `script.js`
+- `logo-a4p.svg`
+- `favicon.svg`
 
-## Mise en ligne sur GitHub
+## Ce que fait cette version
+- test de 100 questions
+- 6 dimensions A4P
+- scoring automatique
+- profil principal + secondaire
+- radar mental sans dépendance externe
+- lectures joueur / coach / parent
+- forces, points de vigilance, plan de progression
+- export JSON et CSV
+- impression navigateur en PDF
+- sauvegarde locale automatique
+
+## Installation GitHub Pages
 1. Crée un dépôt GitHub.
-2. Dépose les 3 fichiers à la racine du dépôt.
+2. Dépose tous les fichiers à la racine.
 3. Va dans **Settings > Pages**.
-4. Source : **Deploy from a branch**.
-5. Branche : **main** / dossier **root**.
+4. Choisis **Deploy from a branch**.
+5. Sélectionne **main** et **/root**.
 6. Enregistre.
 
-## Utilisation
-- Clique sur **Commencer le test**
-- Réponds aux 100 questions
-- Consulte les résultats
-- Utilise **Imprimer / PDF** pour enregistrer un rapport PDF depuis le navigateur
+## Personnalisation utile
+- dans `index.html`, remplace le texte du bloc contact par ton lien Bookeo / Calendly / email
+- tu peux remplacer `logo-a4p.svg` par ton logo officiel
+- tu peux modifier les textes de restitution dans `script.js`
 
-## Remarques
-- Les réponses sont sauvegardées localement dans le navigateur.
-- Le radar est dessiné sans dépendance externe.
-- L’outil est un support d’évaluation fonctionnelle, pas un diagnostic clinique.
+## Limites honnêtes
+- pas de sauvegarde cloud
+- pas d’envoi email automatique
+- pas de dashboard équipe
+- pas de backend
+
+Date de génération : 2026-03-12

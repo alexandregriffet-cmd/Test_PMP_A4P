@@ -4,31 +4,66 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>A4P – Mental Performance Map</title>
+  <meta name="description" content="Cartographie mentale du sportif – A4P" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="app-shell">
-    <header class="hero">
-      <div class="brand">A4P</div>
+    <header class="hero screen-only">
+      <div class="brand-lockup">
+        <img src="logo-a4p.svg" alt="A4P" class="logo" />
+        <div>
+          <div class="eyebrow">Académie de Performances</div>
+          <h1>Mental Performance Map</h1>
+          <p class="subtitle">Cartographie mentale du sportif</p>
+        </div>
+      </div>
       <div class="hero-copy">
-        <h1>Mental Performance Map</h1>
-        <p class="subtitle">Cartographie mentale du sportif</p>
-        <p class="intro">Outil d’évaluation fonctionnelle pour comprendre comment un jeune sportif gère la pression, se concentre, régule ses émotions, s’engage, traite l’information et agit en situation de performance.</p>
+        <p class="intro">
+          Outil d’évaluation fonctionnelle pour comprendre comment un jeune sportif gère la pression, se concentre,
+          régule ses émotions, s’engage, traite l’information et agit en situation de performance.
+        </p>
+        <div class="hero-badges">
+          <span class="chip">100 questions</span>
+          <span class="chip">6 dimensions</span>
+          <span class="chip">Profil mental</span>
+          <span class="chip">Restitution coach / joueur</span>
+        </div>
       </div>
       <div class="hero-actions">
         <button id="startBtn" class="btn btn-primary">Commencer le test</button>
-        <button id="loadDemoBtn" class="btn btn-secondary">Voir une démo</button>
+        <button id="demoBtn" class="btn btn-secondary">Voir une démo</button>
       </div>
     </header>
 
+    <section class="card intro-card screen-only">
+      <div class="intro-grid">
+        <div>
+          <h2>Ce que mesure l’outil</h2>
+          <p class="muted">Le modèle A4P repose sur 6 dimensions : activation, attention, régulation, engagement, cognition et action.</p>
+        </div>
+        <div>
+          <h2>Utilisation</h2>
+          <p class="muted">Support d’évaluation fonctionnelle et de dialogue pour l’accompagnement. Il ne constitue pas un diagnostic clinique.</p>
+        </div>
+      </div>
+    </section>
+
     <main>
-      <section id="metaCard" class="card meta-card hidden">
+      <section id="metaCard" class="card hidden">
         <h2>Informations du joueur</h2>
         <div class="grid two">
           <label>Nom<input id="athleteName" type="text" placeholder="Ex. Lucas Martin" /></label>
           <label>Sport<input id="athleteSport" type="text" placeholder="Ex. Rugby" /></label>
           <label>Âge<input id="athleteAge" type="number" min="8" max="99" placeholder="Ex. 16" /></label>
           <label>Date<input id="assessmentDate" type="date" /></label>
+          <label>Club / structure<input id="athleteClub" type="text" placeholder="Ex. Racing Club" /></label>
+          <label>Évaluateur<input id="assessorName" type="text" placeholder="Ex. Alexandre Griffet" /></label>
+        </div>
+        <div class="inline-note">
+          <input id="consentBox" type="checkbox" />
+          <label for="consentBox">Je confirme utiliser cet outil comme support d’accompagnement et de progression.</label>
         </div>
       </section>
 
@@ -45,69 +80,131 @@
 
         <div class="question-card">
           <p id="questionText" class="question-text"></p>
+          <div class="scale-legend">
+            <span>1 = Jamais</span>
+            <span>5 = Toujours</span>
+          </div>
           <div id="scale" class="scale"></div>
         </div>
 
         <div class="nav-row">
           <button id="prevBtn" class="btn btn-secondary">Précédent</button>
-          <button id="nextBtn" class="btn btn-primary">Suivant</button>
+          <div class="nav-right">
+            <button id="saveBtn" class="btn btn-secondary">Sauvegarder</button>
+            <button id="nextBtn" class="btn btn-primary">Suivant</button>
+          </div>
         </div>
       </section>
 
       <section id="resultsCard" class="hidden">
-        <div class="card result-header">
-          <div>
-            <h2>Résultats A4P</h2>
-            <p id="identityLine" class="muted"></p>
-          </div>
-          <div class="result-actions">
-            <button id="exportJsonBtn" class="btn btn-secondary">Exporter JSON</button>
-            <button id="printBtn" class="btn btn-primary">Imprimer / PDF</button>
-            <button id="restartBtn" class="btn btn-secondary">Recommencer</button>
-          </div>
-        </div>
-
-        <div class="results-grid">
-          <div class="card">
-            <h3>Carte mentale A4P</h3>
-            <canvas id="radarCanvas" width="520" height="520"></canvas>
-          </div>
-
-          <div class="card">
-            <h3>Profil mental</h3>
-            <div class="profile-box">
-              <p class="profile-label">Profil principal</p>
-              <p id="mainProfile" class="profile-value">—</p>
-              <p class="profile-label">Profil secondaire</p>
-              <p id="secondaryProfile" class="profile-value secondary">—</p>
+        <div class="report">
+          <div class="report-cover card printable">
+            <div class="cover-top">
+              <img src="logo-a4p.svg" alt="A4P" class="logo report-logo" />
+              <div>
+                <div class="eyebrow">A4P – Rapport de restitution</div>
+                <h2>Mental Performance Map</h2>
+                <p class="subtitle">Cartographie mentale du sportif</p>
+              </div>
             </div>
-            <div id="profileText" class="narrative"></div>
+            <p id="identityLine" class="muted"></p>
+            <div class="cover-actions screen-only">
+              <button id="printBtn" class="btn btn-primary">Imprimer / PDF</button>
+              <button id="exportJsonBtn" class="btn btn-secondary">Exporter JSON</button>
+              <button id="exportCsvBtn" class="btn btn-secondary">Exporter CSV</button>
+              <button id="restartBtn" class="btn btn-secondary">Recommencer</button>
+            </div>
           </div>
-        </div>
 
-        <div class="card">
-          <h3>Scores par dimension</h3>
-          <div id="scoreGrid" class="score-grid"></div>
-        </div>
+          <div class="results-grid">
+            <div class="card printable">
+              <h3>Carte mentale A4P</h3>
+              <canvas id="radarCanvas" width="540" height="540"></canvas>
+            </div>
 
-        <div class="results-grid three">
-          <div class="card">
-            <h3>Forces mentales</h3>
-            <ul id="strengthsList" class="bullets"></ul>
+            <div class="card printable">
+              <h3>Profil mental</h3>
+              <div class="profile-box">
+                <p class="profile-label">Profil principal</p>
+                <p id="mainProfile" class="profile-value">—</p>
+                <p class="profile-label">Profil secondaire</p>
+                <p id="secondaryProfile" class="profile-value secondary">—</p>
+              </div>
+              <div id="profileText" class="narrative"></div>
+            </div>
           </div>
-          <div class="card">
-            <h3>Points de vigilance</h3>
-            <ul id="watchoutsList" class="bullets"></ul>
+
+          <div class="card printable">
+            <h3>Scores par dimension</h3>
+            <div id="scoreGrid" class="score-grid"></div>
           </div>
-          <div class="card">
-            <h3>Plan de progression</h3>
-            <ul id="planList" class="bullets"></ul>
+
+          <div class="results-grid three">
+            <div class="card printable">
+              <h3>Forces mentales</h3>
+              <ul id="strengthsList" class="bullets"></ul>
+            </div>
+            <div class="card printable">
+              <h3>Points de vigilance</h3>
+              <ul id="watchoutsList" class="bullets"></ul>
+            </div>
+            <div class="card printable">
+              <h3>Plan de progression</h3>
+              <ul id="planList" class="bullets"></ul>
+            </div>
+          </div>
+
+          <div class="results-grid three">
+            <div class="card printable">
+              <h3>Lecture joueur</h3>
+              <div id="playerSummary" class="narrative"></div>
+            </div>
+            <div class="card printable">
+              <h3>Lecture coach</h3>
+              <div id="coachSummary" class="narrative"></div>
+            </div>
+            <div class="card printable">
+              <h3>Lecture parent</h3>
+              <div id="parentSummary" class="narrative"></div>
+            </div>
+          </div>
+
+          <div class="card cta-card screen-only">
+            <h3>Transformer le diagnostic en accompagnement</h3>
+            <p class="muted">
+              Ce test devient plus puissant lorsqu’il est suivi d’un débrief, d’ateliers ciblés et d’un plan de progression.
+            </p>
+            <div class="cta-grid">
+              <div class="cta-item">
+                <strong>Débrief individuel</strong>
+                <span>Analyse des résultats et leviers prioritaires</span>
+              </div>
+              <div class="cta-item">
+                <strong>Restitution staff / club</strong>
+                <span>Lecture collective et axes d’intervention</span>
+              </div>
+              <div class="cta-item">
+                <strong>Ateliers A4P</strong>
+                <span>Pression, concentration, confiance, engagement</span>
+              </div>
+            </div>
+            <div class="contact-box">
+              <strong>Académie de Performances – A4P Conseils</strong>
+              <span>Ajoute ici ton lien Calendly / Bookeo / email dans le fichier <code>index.html</code>.</span>
+            </div>
+          </div>
+
+          <div class="card disclaimer printable">
+            <h3>Cadre d’utilisation</h3>
+            <p class="muted">
+              Cet outil est un support d’évaluation fonctionnelle et de personnalisation de l’accompagnement.
+              Il ne constitue ni un diagnostic médical, ni un diagnostic psychologique clinique.
+            </p>
           </div>
         </div>
       </section>
     </main>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
