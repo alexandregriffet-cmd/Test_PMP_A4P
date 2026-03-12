@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>A4P – PMP + Action Types</title>
-  <meta name="description" content="Profil Mental de Performance A4P avec préférences motrices intégrées" />
+  <title>A4P – PMP + MBTI + Action Types</title>
+  <meta name="description" content="Profil Mental de Performance A4P avec traduction MBTI et correspondance Action Types" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -15,19 +15,21 @@
         <img src="logo-a4p.svg" alt="A4P" class="logo" />
         <div>
           <div class="eyebrow">Académie de Performances</div>
-          <h1>PMP + Préférences motrices</h1>
-          <p class="subtitle">Mental Performance Map avec intégration Action Types</p>
+          <h1>PMP + MBTI + Action Types</h1>
+          <p class="subtitle">Profil Mental de Performance, traduction MBTI et code moteur Action Types</p>
         </div>
       </div>
       <p class="intro">
-        Cette version associe le <strong>PMP A4P</strong> (activation, attention, régulation, engagement)
-        à une lecture des <strong>préférences cognitives</strong> et des <strong>préférences motrices inspirées des Action Types</strong>.
+        Cette version associe le <strong>PMP A4P</strong> (activation, attention, régulation, engagement),
+        une <strong>traduction MBTI</strong> interne (E/I, S/N, T/F, J/P) et la
+        <strong>correspondance motrice Action Types</strong> de type <strong>R1, D4, C2…</strong>
+        dans le rapport final.
       </p>
       <div class="hero-badges">
-        <span class="chip">100 questions</span>
+        <span class="chip">116 questions</span>
         <span class="chip">PMP mental</span>
-        <span class="chip">Cognition</span>
-        <span class="chip">Action Types intégrés</span>
+        <span class="chip">MBTI</span>
+        <span class="chip">Action Types</span>
       </div>
       <div class="hero-actions">
         <button id="startBtn" class="btn btn-primary">Commencer le test</button>
@@ -36,20 +38,11 @@
     </header>
 
     <section class="card screen-only">
-      <h2>Structure du rapport</h2>
+      <h2>Lecture du rapport</h2>
       <div class="three-cols">
-        <div>
-          <strong>Niveau 1</strong>
-          <p class="muted">Profil mental PMP : activation, attention, régulation, engagement.</p>
-        </div>
-        <div>
-          <strong>Niveau 2</strong>
-          <p class="muted">Préférences cognitives : analytique / intuitif.</p>
-        </div>
-        <div>
-          <strong>Niveau 3</strong>
-          <p class="muted">Préférences motrices inspirées Action Types : technique, sensoriel, stratégique, créatif.</p>
-        </div>
+        <div><strong>Niveau 1</strong><p class="muted">PMP : activation, attention, régulation, engagement.</p></div>
+        <div><strong>Niveau 2</strong><p class="muted">Type cognitif : E/I, S/N, T/F, J/P → type MBTI.</p></div>
+        <div><strong>Niveau 3</strong><p class="muted">Correspondance Action Types : code moteur D1, R1, C4, etc.</p></div>
       </div>
     </section>
 
@@ -66,14 +59,14 @@
         </div>
         <div class="inline-note">
           <input id="consentBox" type="checkbox" />
-          <label for="consentBox">J’utilise cet outil comme support d’accompagnement, pas comme diagnostic clinique.</label>
+          <label for="consentBox">J’utilise cet outil comme support d’accompagnement. La traduction MBTI est une lecture interne du test et non un test MBTI officiel.</label>
         </div>
       </section>
 
       <section id="testCard" class="card hidden">
         <div class="test-top">
           <div>
-            <h2 id="questionCounter">Question 1 / 100</h2>
+            <h2 id="questionCounter">Question 1 / 116</h2>
             <p id="dimensionBadge" class="badge">Activation</p>
           </div>
           <div class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
@@ -98,8 +91,8 @@
             <img src="logo-a4p.svg" alt="A4P" class="logo report-logo" />
             <div>
               <div class="eyebrow">A4P – Rapport de restitution</div>
-              <h2>PMP + Préférences motrices</h2>
-              <p class="subtitle">Profil Mental de Performance et lecture Action Types</p>
+              <h2>PMP + MBTI + Action Types</h2>
+              <p class="subtitle">Profil mental, traduction MBTI et code moteur Action Types</p>
             </div>
           </div>
           <p id="identityLine" class="muted"></p>
@@ -120,10 +113,10 @@
             <div class="profile-box">
               <p class="profile-label">Profil mental principal</p>
               <p id="mainProfile" class="profile-value">—</p>
-              <p class="profile-label">Préférence motrice dominante</p>
-              <p id="motorProfile" class="profile-value secondary">—</p>
-              <p class="profile-label">Préférence motrice secondaire</p>
-              <p id="motorProfile2" class="profile-value tertiary">—</p>
+              <p class="profile-label">Traduction MBTI</p>
+              <p id="mbtiType" class="profile-value secondary">—</p>
+              <p class="profile-label">Correspondance Action Types</p>
+              <p id="actionCode" class="profile-value tertiary">—</p>
             </div>
             <div id="profileText" class="narrative"></div>
           </div>
@@ -135,7 +128,7 @@
             <div id="scoreGrid" class="score-grid four"></div>
           </div>
           <div class="card printable">
-            <h3>Préférences cognitives & motrices</h3>
+            <h3>Lecture MBTI & Action Types</h3>
             <div id="preferenceGrid" class="score-grid two-col"></div>
           </div>
         </div>
@@ -173,8 +166,8 @@
         <div class="card printable">
           <h3>Cadre d’utilisation</h3>
           <p class="muted">
-            La partie motrice est une lecture <strong>inspirée des préférences motrices / Action Types</strong> pour enrichir l’accompagnement.
-            Elle sert à personnaliser l’apprentissage, le feedback et les routines d’entraînement.
+            La traduction MBTI repose ici sur des items internes du test A4P. Elle sert à produire une correspondance
+            Action Types de type <strong>R1, D4, C2…</strong> dans le rapport. Il ne s’agit pas d’un test MBTI officiel.
           </p>
         </div>
       </section>

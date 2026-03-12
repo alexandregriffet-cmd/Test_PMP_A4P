@@ -1,13 +1,14 @@
-# A4P – PMP + Préférences motrices
+# A4P – PMP + MBTI + Action Types
 
-Version corrigée pour intégrer explicitement les préférences motrices inspirées des Action Types.
-
-## Ce que contient cette version
+Version finale avec :
 - PMP mental : activation, attention, régulation, engagement
-- Préférences cognitives : analytique / intuitif
-- Préférences motrices : technique / sensoriel / stratégique / créatif
-- Rapport avec profil mental + profil moteur dominant et secondaire
-- Lectures joueur / coach / Action Types
+- traduction MBTI interne : E/I, S/N, T/F, J/P
+- correspondance automatique MBTI → Action Types
+
+## Exemple
+- ENFP → R1
+- INTJ → C4
+- ISFP → G2
 
 ## Fichiers
 - index.html
@@ -17,6 +18,6 @@ Version corrigée pour intégrer explicitement les préférences motrices inspir
 - favicon.svg
 
 ## Limite honnête
-La partie motrice est une lecture inspirée des préférences motrices / Action Types pour enrichir l’accompagnement, pas une certification officielle du modèle.
+La traduction MBTI et la correspondance Action Types sont utilisées ici comme lecture interne d’accompagnement. Ce n’est pas un test MBTI officiel.
 
 Date de génération : 2026-03-12
