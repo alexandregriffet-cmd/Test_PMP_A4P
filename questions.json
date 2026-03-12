@@ -1,0 +1,650 @@
+[
+  {
+    "id": 1,
+    "dimension": "activation",
+    "text": "Question 1 – dimension activation."
+  },
+  {
+    "id": 2,
+    "dimension": "activation",
+    "text": "Question 2 – dimension activation."
+  },
+  {
+    "id": 3,
+    "dimension": "activation",
+    "text": "Question 3 – dimension activation."
+  },
+  {
+    "id": 4,
+    "dimension": "activation",
+    "text": "Question 4 – dimension activation."
+  },
+  {
+    "id": 5,
+    "dimension": "activation",
+    "text": "Question 5 – dimension activation."
+  },
+  {
+    "id": 6,
+    "dimension": "activation",
+    "text": "Question 6 – dimension activation."
+  },
+  {
+    "id": 7,
+    "dimension": "activation",
+    "text": "Question 7 – dimension activation."
+  },
+  {
+    "id": 8,
+    "dimension": "activation",
+    "text": "Question 8 – dimension activation."
+  },
+  {
+    "id": 9,
+    "dimension": "activation",
+    "text": "Question 9 – dimension activation."
+  },
+  {
+    "id": 10,
+    "dimension": "activation",
+    "text": "Question 10 – dimension activation."
+  },
+  {
+    "id": 11,
+    "dimension": "activation",
+    "text": "Question 11 – dimension activation."
+  },
+  {
+    "id": 12,
+    "dimension": "activation",
+    "text": "Question 12 – dimension activation."
+  },
+  {
+    "id": 13,
+    "dimension": "activation",
+    "text": "Question 13 – dimension activation."
+  },
+  {
+    "id": 14,
+    "dimension": "activation",
+    "text": "Question 14 – dimension activation."
+  },
+  {
+    "id": 15,
+    "dimension": "activation",
+    "text": "Question 15 – dimension activation."
+  },
+  {
+    "id": 16,
+    "dimension": "attention",
+    "text": "Question 16 – dimension attention."
+  },
+  {
+    "id": 17,
+    "dimension": "attention",
+    "text": "Question 17 – dimension attention."
+  },
+  {
+    "id": 18,
+    "dimension": "attention",
+    "text": "Question 18 – dimension attention."
+  },
+  {
+    "id": 19,
+    "dimension": "attention",
+    "text": "Question 19 – dimension attention."
+  },
+  {
+    "id": 20,
+    "dimension": "attention",
+    "text": "Question 20 – dimension attention."
+  },
+  {
+    "id": 21,
+    "dimension": "attention",
+    "text": "Question 21 – dimension attention."
+  },
+  {
+    "id": 22,
+    "dimension": "attention",
+    "text": "Question 22 – dimension attention."
+  },
+  {
+    "id": 23,
+    "dimension": "attention",
+    "text": "Question 23 – dimension attention."
+  },
+  {
+    "id": 24,
+    "dimension": "attention",
+    "text": "Question 24 – dimension attention."
+  },
+  {
+    "id": 25,
+    "dimension": "attention",
+    "text": "Question 25 – dimension attention."
+  },
+  {
+    "id": 26,
+    "dimension": "attention",
+    "text": "Question 26 – dimension attention."
+  },
+  {
+    "id": 27,
+    "dimension": "attention",
+    "text": "Question 27 – dimension attention."
+  },
+  {
+    "id": 28,
+    "dimension": "attention",
+    "text": "Question 28 – dimension attention."
+  },
+  {
+    "id": 29,
+    "dimension": "attention",
+    "text": "Question 29 – dimension attention."
+  },
+  {
+    "id": 30,
+    "dimension": "attention",
+    "text": "Question 30 – dimension attention."
+  },
+  {
+    "id": 31,
+    "dimension": "regulation",
+    "text": "Question 31 – dimension regulation."
+  },
+  {
+    "id": 32,
+    "dimension": "regulation",
+    "text": "Question 32 – dimension regulation."
+  },
+  {
+    "id": 33,
+    "dimension": "regulation",
+    "text": "Question 33 – dimension regulation."
+  },
+  {
+    "id": 34,
+    "dimension": "regulation",
+    "text": "Question 34 – dimension regulation."
+  },
+  {
+    "id": 35,
+    "dimension": "regulation",
+    "text": "Question 35 – dimension regulation."
+  },
+  {
+    "id": 36,
+    "dimension": "regulation",
+    "text": "Question 36 – dimension regulation."
+  },
+  {
+    "id": 37,
+    "dimension": "regulation",
+    "text": "Question 37 – dimension regulation."
+  },
+  {
+    "id": 38,
+    "dimension": "regulation",
+    "text": "Question 38 – dimension regulation."
+  },
+  {
+    "id": 39,
+    "dimension": "regulation",
+    "text": "Question 39 – dimension regulation."
+  },
+  {
+    "id": 40,
+    "dimension": "regulation",
+    "text": "Question 40 – dimension regulation."
+  },
+  {
+    "id": 41,
+    "dimension": "regulation",
+    "text": "Question 41 – dimension regulation."
+  },
+  {
+    "id": 42,
+    "dimension": "regulation",
+    "text": "Question 42 – dimension regulation."
+  },
+  {
+    "id": 43,
+    "dimension": "regulation",
+    "text": "Question 43 – dimension regulation."
+  },
+  {
+    "id": 44,
+    "dimension": "regulation",
+    "text": "Question 44 – dimension regulation."
+  },
+  {
+    "id": 45,
+    "dimension": "regulation",
+    "text": "Question 45 – dimension regulation."
+  },
+  {
+    "id": 46,
+    "dimension": "engagement",
+    "text": "Question 46 – dimension engagement."
+  },
+  {
+    "id": 47,
+    "dimension": "engagement",
+    "text": "Question 47 – dimension engagement."
+  },
+  {
+    "id": 48,
+    "dimension": "engagement",
+    "text": "Question 48 – dimension engagement."
+  },
+  {
+    "id": 49,
+    "dimension": "engagement",
+    "text": "Question 49 – dimension engagement."
+  },
+  {
+    "id": 50,
+    "dimension": "engagement",
+    "text": "Question 50 – dimension engagement."
+  },
+  {
+    "id": 51,
+    "dimension": "engagement",
+    "text": "Question 51 – dimension engagement."
+  },
+  {
+    "id": 52,
+    "dimension": "engagement",
+    "text": "Question 52 – dimension engagement."
+  },
+  {
+    "id": 53,
+    "dimension": "engagement",
+    "text": "Question 53 – dimension engagement."
+  },
+  {
+    "id": 54,
+    "dimension": "engagement",
+    "text": "Question 54 – dimension engagement."
+  },
+  {
+    "id": 55,
+    "dimension": "engagement",
+    "text": "Question 55 – dimension engagement."
+  },
+  {
+    "id": 56,
+    "dimension": "engagement",
+    "text": "Question 56 – dimension engagement."
+  },
+  {
+    "id": 57,
+    "dimension": "engagement",
+    "text": "Question 57 – dimension engagement."
+  },
+  {
+    "id": 58,
+    "dimension": "engagement",
+    "text": "Question 58 – dimension engagement."
+  },
+  {
+    "id": 59,
+    "dimension": "engagement",
+    "text": "Question 59 – dimension engagement."
+  },
+  {
+    "id": 60,
+    "dimension": "engagement",
+    "text": "Question 60 – dimension engagement."
+  },
+  {
+    "id": 61,
+    "dimension": "confidence",
+    "text": "Question 61 – dimension confidence."
+  },
+  {
+    "id": 62,
+    "dimension": "confidence",
+    "text": "Question 62 – dimension confidence."
+  },
+  {
+    "id": 63,
+    "dimension": "confidence",
+    "text": "Question 63 – dimension confidence."
+  },
+  {
+    "id": 64,
+    "dimension": "confidence",
+    "text": "Question 64 – dimension confidence."
+  },
+  {
+    "id": 65,
+    "dimension": "confidence",
+    "text": "Question 65 – dimension confidence."
+  },
+  {
+    "id": 66,
+    "dimension": "confidence",
+    "text": "Question 66 – dimension confidence."
+  },
+  {
+    "id": 67,
+    "dimension": "confidence",
+    "text": "Question 67 – dimension confidence."
+  },
+  {
+    "id": 68,
+    "dimension": "confidence",
+    "text": "Question 68 – dimension confidence."
+  },
+  {
+    "id": 69,
+    "dimension": "confidence",
+    "text": "Question 69 – dimension confidence."
+  },
+  {
+    "id": 70,
+    "dimension": "confidence",
+    "text": "Question 70 – dimension confidence."
+  },
+  {
+    "id": 71,
+    "dimension": "confidence",
+    "text": "Question 71 – dimension confidence."
+  },
+  {
+    "id": 72,
+    "dimension": "confidence",
+    "text": "Question 72 – dimension confidence."
+  },
+  {
+    "id": 73,
+    "dimension": "confidence",
+    "text": "Question 73 – dimension confidence."
+  },
+  {
+    "id": 74,
+    "dimension": "confidence",
+    "text": "Question 74 – dimension confidence."
+  },
+  {
+    "id": 75,
+    "dimension": "confidence",
+    "text": "Question 75 – dimension confidence."
+  },
+  {
+    "id": 76,
+    "dimension": "resilience",
+    "text": "Question 76 – dimension resilience."
+  },
+  {
+    "id": 77,
+    "dimension": "resilience",
+    "text": "Question 77 – dimension resilience."
+  },
+  {
+    "id": 78,
+    "dimension": "resilience",
+    "text": "Question 78 – dimension resilience."
+  },
+  {
+    "id": 79,
+    "dimension": "resilience",
+    "text": "Question 79 – dimension resilience."
+  },
+  {
+    "id": 80,
+    "dimension": "resilience",
+    "text": "Question 80 – dimension resilience."
+  },
+  {
+    "id": 81,
+    "dimension": "resilience",
+    "text": "Question 81 – dimension resilience."
+  },
+  {
+    "id": 82,
+    "dimension": "resilience",
+    "text": "Question 82 – dimension resilience."
+  },
+  {
+    "id": 83,
+    "dimension": "resilience",
+    "text": "Question 83 – dimension resilience."
+  },
+  {
+    "id": 84,
+    "dimension": "resilience",
+    "text": "Question 84 – dimension resilience."
+  },
+  {
+    "id": 85,
+    "dimension": "resilience",
+    "text": "Question 85 – dimension resilience."
+  },
+  {
+    "id": 86,
+    "dimension": "resilience",
+    "text": "Question 86 – dimension resilience."
+  },
+  {
+    "id": 87,
+    "dimension": "resilience",
+    "text": "Question 87 – dimension resilience."
+  },
+  {
+    "id": 88,
+    "dimension": "resilience",
+    "text": "Question 88 – dimension resilience."
+  },
+  {
+    "id": 89,
+    "dimension": "resilience",
+    "text": "Question 89 – dimension resilience."
+  },
+  {
+    "id": 90,
+    "dimension": "resilience",
+    "text": "Question 90 – dimension resilience."
+  },
+  {
+    "id": 91,
+    "dimension": "cognition",
+    "text": "Question 91 – dimension cognition."
+  },
+  {
+    "id": 92,
+    "dimension": "cognition",
+    "text": "Question 92 – dimension cognition."
+  },
+  {
+    "id": 93,
+    "dimension": "cognition",
+    "text": "Question 93 – dimension cognition."
+  },
+  {
+    "id": 94,
+    "dimension": "cognition",
+    "text": "Question 94 – dimension cognition."
+  },
+  {
+    "id": 95,
+    "dimension": "cognition",
+    "text": "Question 95 – dimension cognition."
+  },
+  {
+    "id": 96,
+    "dimension": "cognition",
+    "text": "Question 96 – dimension cognition."
+  },
+  {
+    "id": 97,
+    "dimension": "cognition",
+    "text": "Question 97 – dimension cognition."
+  },
+  {
+    "id": 98,
+    "dimension": "cognition",
+    "text": "Question 98 – dimension cognition."
+  },
+  {
+    "id": 99,
+    "dimension": "cognition",
+    "text": "Question 99 – dimension cognition."
+  },
+  {
+    "id": 100,
+    "dimension": "cognition",
+    "text": "Question 100 – dimension cognition."
+  },
+  {
+    "id": 101,
+    "dimension": "cognition",
+    "text": "Question 101 – dimension cognition."
+  },
+  {
+    "id": 102,
+    "dimension": "cognition",
+    "text": "Question 102 – dimension cognition."
+  },
+  {
+    "id": 103,
+    "dimension": "cognition",
+    "text": "Question 103 – dimension cognition."
+  },
+  {
+    "id": 104,
+    "dimension": "cognition",
+    "text": "Question 104 – dimension cognition."
+  },
+  {
+    "id": 105,
+    "dimension": "cognition",
+    "text": "Question 105 – dimension cognition."
+  },
+  {
+    "id": 106,
+    "dimension": "motricity",
+    "text": "Question 106 – dimension motricity."
+  },
+  {
+    "id": 107,
+    "dimension": "motricity",
+    "text": "Question 107 – dimension motricity."
+  },
+  {
+    "id": 108,
+    "dimension": "motricity",
+    "text": "Question 108 – dimension motricity."
+  },
+  {
+    "id": 109,
+    "dimension": "motricity",
+    "text": "Question 109 – dimension motricity."
+  },
+  {
+    "id": 110,
+    "dimension": "motricity",
+    "text": "Question 110 – dimension motricity."
+  },
+  {
+    "id": 111,
+    "dimension": "motricity",
+    "text": "Question 111 – dimension motricity."
+  },
+  {
+    "id": 112,
+    "dimension": "motricity",
+    "text": "Question 112 – dimension motricity."
+  },
+  {
+    "id": 113,
+    "dimension": "motricity",
+    "text": "Question 113 – dimension motricity."
+  },
+  {
+    "id": 114,
+    "dimension": "motricity",
+    "text": "Question 114 – dimension motricity."
+  },
+  {
+    "id": 115,
+    "dimension": "motricity",
+    "text": "Question 115 – dimension motricity."
+  },
+  {
+    "id": 116,
+    "dimension": "motricity",
+    "text": "Question 116 – dimension motricity."
+  },
+  {
+    "id": 117,
+    "dimension": "motricity",
+    "text": "Question 117 – dimension motricity."
+  },
+  {
+    "id": 118,
+    "dimension": "motricity",
+    "text": "Question 118 – dimension motricity."
+  },
+  {
+    "id": 119,
+    "dimension": "motricity",
+    "text": "Question 119 – dimension motricity."
+  },
+  {
+    "id": 120,
+    "dimension": "motricity",
+    "text": "Question 120 – dimension motricity."
+  },
+  {
+    "id": 121,
+    "dimension": "mbti",
+    "axis": "E",
+    "text": "Je gagne de l’énergie avec les autres"
+  },
+  {
+    "id": 122,
+    "dimension": "mbti",
+    "axis": "I",
+    "text": "Je préfère réfléchir seul"
+  },
+  {
+    "id": 123,
+    "dimension": "mbti",
+    "axis": "S",
+    "text": "Je me fie aux faits concrets"
+  },
+  {
+    "id": 124,
+    "dimension": "mbti",
+    "axis": "N",
+    "text": "Je vois facilement les possibilités"
+  },
+  {
+    "id": 125,
+    "dimension": "mbti",
+    "axis": "T",
+    "text": "Je décide avec logique"
+  },
+  {
+    "id": 126,
+    "dimension": "mbti",
+    "axis": "F",
+    "text": "Je tiens compte des personnes"
+  },
+  {
+    "id": 127,
+    "dimension": "mbti",
+    "axis": "J",
+    "text": "J’aime planifier"
+  },
+  {
+    "id": 128,
+    "dimension": "mbti",
+    "axis": "P",
+    "text": "Je préfère improviser"
+  }
+]

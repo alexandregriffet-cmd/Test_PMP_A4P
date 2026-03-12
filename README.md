@@ -1,14 +1,16 @@
 
-PMP A4P – version premium du rapport
+PMP A4P – outil final
 
 Contenu :
-- rapport narratif long (style 10–20 pages)
-- sections : portrait mental, forces, pression, apprentissage,
-  action types, progression, plan mental, lecture joueur, parents, coach.
+- test 120 questions
+- scoring dimensions mentales
+- structure MBTI
+- correspondance Action Types
 
-Pour GitHub :
-1. dézipper
-2. déposer les fichiers dans votre dépôt
-3. activer GitHub Pages
+Installation GitHub :
+1 télécharger ce zip
+2 dézipper
+3 déposer dans votre repo
+4 activer GitHub Pages
 
-Généré le 2026-03-12
+Généré : 2026-03-12

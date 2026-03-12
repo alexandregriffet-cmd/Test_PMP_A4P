@@ -1,0 +1,29 @@
+
+body {
+font-family: Arial;
+background:#0e1727;
+color:white;
+max-width:900px;
+margin:auto;
+padding:40px;
+}
+
+.question {
+margin:20px 0;
+padding:20px;
+background:#16213a;
+border-radius:10px;
+}
+
+button {
+padding:12px 20px;
+font-size:16px;
+margin:20px 0;
+}
+
+.report-section {
+background:#1d2a44;
+padding:25px;
+margin:20px 0;
+border-radius:10px;
+}
