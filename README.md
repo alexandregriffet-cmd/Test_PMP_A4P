@@ -1,13 +1,22 @@
-# Test_PMP_A4P — version corrigée
+# PMP A4P — site complet
 
-Cette version affiche clairement dans le rapport :
+Cette version comprend :
+- 136 questions
+- rapport détaillé rédigé
+- profils principal / secondaire / tertiaire
+- radar mental
+- type cognitif inspiré MBTI
+- correspondance vers la préférence motrice (ex. ENFP → R1)
+- export JSON
+- impression PDF depuis le navigateur
 
-**MBTI : XXXX → Préférence motrice : YZ**
-
-Exemples :
-- ISTJ → D4
-- ENFP → R1
-- ENTJ → C3
+## Mise en ligne GitHub Pages
+1. Crée ou ouvre ton dépôt GitHub.
+2. Dépose tous les fichiers à la racine.
+3. Va dans Settings > Pages.
+4. Choisis Deploy from a branch.
+5. Sélectionne main et /root.
+6. Enregistre.
 
 ## Fichiers
 - index.html
@@ -15,8 +24,5 @@ Exemples :
 - script.js
 - logo-a4p.svg
 - favicon.svg
-
-## Mise à jour GitHub
-Remplace les fichiers existants par ceux-ci à la racine de ton dépôt, puis republie GitHub Pages.
 
 Date de génération : 2026-03-12

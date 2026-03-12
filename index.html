@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Test_PMP_A4P</title>
-  <meta name="description" content="Profil Mental de Performance A4P avec traduction MBTI et code moteur Action Types" />
+  <title>PMP A4P — Profil Mental de Performance</title>
+  <meta name="description" content="Test complet PMP A4P avec rapport détaillé, type cognitif inspiré MBTI et préférence motrice." />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -15,20 +15,20 @@
         <img src="logo-a4p.svg" alt="A4P" class="logo" />
         <div>
           <div class="eyebrow">Académie de Performances</div>
-          <h1>Test PMP A4P</h1>
-          <p class="subtitle">PMP + traduction MBTI + correspondance Action Types</p>
+          <h1>PMP A4P</h1>
+          <p class="subtitle">Profil Mental de Performance — version complète</p>
         </div>
       </div>
       <p class="intro">
-        Cette version associe le <strong>PMP A4P</strong>, une <strong>lecture cognitive inspirée MBTI</strong>
-        et la <strong>traduction immédiate vers la préférence motrice</strong> (exemple :
-        <strong>MBTI : ENFP → Préférence motrice : R1</strong>).
+        Cette version complète du test évalue les dimensions mentales clés de la performance,
+        génère un rapport détaillé et affiche la ligne de traduction
+        <strong>Type cognitif inspiré MBTI → Préférence motrice</strong>.
       </p>
       <div class="hero-badges">
-        <span class="chip">116 questions</span>
-        <span class="chip">PMP mental</span>
-        <span class="chip">Type cognitif</span>
-        <span class="chip">Préférence motrice</span>
+        <span class="chip">136 questions</span>
+        <span class="chip">Rapport rédigé</span>
+        <span class="chip">Radar mental</span>
+        <span class="chip">MBTI → Préférence motrice</span>
       </div>
       <div class="hero-actions">
         <button id="startBtn" class="btn btn-primary">Commencer le test</button>
@@ -49,14 +49,14 @@
         </div>
         <div class="inline-note">
           <input id="consentBox" type="checkbox" />
-          <label for="consentBox">J’utilise cet outil comme support d’accompagnement. La lecture MBTI est une traduction inspirée, non un test MBTI officiel.</label>
+          <label for="consentBox">J’utilise cet outil comme support d’accompagnement. La ligne MBTI est une traduction inspirée, non un test MBTI officiel.</label>
         </div>
       </section>
 
       <section id="testCard" class="card hidden">
         <div class="test-top">
           <div>
-            <h2 id="questionCounter">Question 1 / 116</h2>
+            <h2 id="questionCounter">Question 1 / 136</h2>
             <p id="dimensionBadge" class="badge">Activation</p>
           </div>
           <div class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
@@ -80,9 +80,9 @@
           <div class="cover-top">
             <img src="logo-a4p.svg" alt="A4P" class="logo report-logo" />
             <div>
-              <div class="eyebrow">A4P – Rapport de restitution</div>
-              <h2>Résultats du test</h2>
-              <p class="subtitle">PMP + MBTI + préférence motrice</p>
+              <div class="eyebrow">A4P — Rapport de restitution</div>
+              <h2>PMP A4P</h2>
+              <p class="subtitle">Profil Mental de Performance</p>
             </div>
           </div>
           <p id="identityLine" class="muted"></p>
@@ -111,29 +111,29 @@
         <div class="results-grid">
           <div class="card printable">
             <h3>Carte mentale PMP</h3>
-            <canvas id="pmpRadar" width="520" height="520"></canvas>
+            <canvas id="pmpRadar" width="560" height="560"></canvas>
           </div>
           <div class="card printable">
-            <h3>Traduction cognitive et motrice</h3>
+            <h3>Synthèse du profil</h3>
             <div class="profile-box">
-              <p class="profile-label">Profil mental principal</p>
+              <p class="profile-label">Profil principal</p>
               <p id="mainProfile" class="profile-value">—</p>
-              <p class="profile-label">Type cognitif inspiré MBTI</p>
-              <p id="mbtiType" class="profile-value secondary">—</p>
-              <p class="profile-label">Préférence motrice</p>
-              <p id="motorCode" class="profile-value secondary">—</p>
+              <p class="profile-label">Profil secondaire</p>
+              <p id="secondaryProfile" class="profile-value secondary">—</p>
+              <p class="profile-label">Profil tertiaire</p>
+              <p id="tertiaryProfile" class="profile-value tertiary">—</p>
             </div>
-            <div id="profileText" class="narrative"></div>
+            <div id="summaryText" class="narrative"></div>
           </div>
         </div>
 
         <div class="results-grid">
           <div class="card printable">
-            <h3>Scores PMP</h3>
+            <h3>Scores mentaux</h3>
             <div id="scoreGrid" class="score-grid four"></div>
           </div>
           <div class="card printable">
-            <h3>Axes cognitifs et traduction motrice</h3>
+            <h3>Axes cognitifs et motricité</h3>
             <div id="preferenceGrid" class="score-grid two-col"></div>
           </div>
         </div>
@@ -141,30 +141,30 @@
         <div class="results-grid three">
           <div class="card printable">
             <h3>Forces mentales</h3>
-            <ul id="strengthsList" class="bullets"></ul>
+            <div id="strengthsText" class="narrative"></div>
           </div>
           <div class="card printable">
-            <h3>Points de vigilance</h3>
-            <ul id="watchoutsList" class="bullets"></ul>
+            <h3>Axes de progrès</h3>
+            <div id="progressText" class="narrative"></div>
           </div>
           <div class="card printable">
-            <h3>Plan de progression</h3>
-            <ul id="planList" class="bullets"></ul>
+            <h3>Plan d’action</h3>
+            <div id="planText" class="narrative"></div>
           </div>
         </div>
 
         <div class="results-grid three">
           <div class="card printable">
-            <h3>Lecture joueur</h3>
+            <h3>Lecture jeune</h3>
             <div id="playerSummary" class="narrative"></div>
+          </div>
+          <div class="card printable">
+            <h3>Lecture parents</h3>
+            <div id="parentSummary" class="narrative"></div>
           </div>
           <div class="card printable">
             <h3>Lecture coach</h3>
             <div id="coachSummary" class="narrative"></div>
-          </div>
-          <div class="card printable">
-            <h3>Lecture Action Types</h3>
-            <div id="motorSummary" class="narrative"></div>
           </div>
         </div>
 
