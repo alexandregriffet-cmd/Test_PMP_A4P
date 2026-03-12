@@ -1,184 +1,91 @@
-<!doctype html>
-<html lang="fr">
+
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PMP A4P — Profil Mental de Performance</title>
-  <meta name="description" content="Test complet PMP A4P avec rapport détaillé, type cognitif inspiré MBTI et préférence motrice." />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8">
+<title>PMP A4P – Rapport Premium</title>
+<style>
+body{font-family:Arial;background:#0e1727;color:white;padding:40px;max-width:900px;margin:auto}
+h1{font-size:40px}
+.card{background:#16213a;padding:25px;margin:20px 0;border-radius:14px}
+</style>
 </head>
 <body>
-  <div class="app-shell">
-    <header class="hero screen-only">
-      <div class="brand-lockup">
-        <img src="logo-a4p.svg" alt="A4P" class="logo" />
-        <div>
-          <div class="eyebrow">Académie de Performances</div>
-          <h1>PMP A4P</h1>
-          <p class="subtitle">Profil Mental de Performance — version complète</p>
-        </div>
-      </div>
-      <p class="intro">
-        Cette version complète du test évalue les dimensions mentales clés de la performance,
-        génère un rapport détaillé et affiche la ligne de traduction
-        <strong>Type cognitif inspiré MBTI → Préférence motrice</strong>.
-      </p>
-      <div class="hero-badges">
-        <span class="chip">136 questions</span>
-        <span class="chip">Rapport rédigé</span>
-        <span class="chip">Radar mental</span>
-        <span class="chip">MBTI → Préférence motrice</span>
-      </div>
-      <div class="hero-actions">
-        <button id="startBtn" class="btn btn-primary">Commencer le test</button>
-        <button id="demoBtn" class="btn btn-secondary">Voir une démo</button>
-      </div>
-    </header>
 
-    <main>
-      <section id="metaCard" class="card hidden">
-        <h2>Informations du joueur</h2>
-        <div class="grid two">
-          <label>Nom<input id="athleteName" type="text" placeholder="Ex. Lucas Martin" /></label>
-          <label>Sport<input id="athleteSport" type="text" placeholder="Ex. Tennis" /></label>
-          <label>Âge<input id="athleteAge" type="number" min="8" max="99" placeholder="Ex. 16" /></label>
-          <label>Date<input id="assessmentDate" type="date" /></label>
-          <label>Club / structure<input id="athleteClub" type="text" placeholder="Ex. Racing Club" /></label>
-          <label>Évaluateur<input id="assessorName" type="text" placeholder="Ex. Alexandre Griffet" /></label>
-        </div>
-        <div class="inline-note">
-          <input id="consentBox" type="checkbox" />
-          <label for="consentBox">J’utilise cet outil comme support d’accompagnement. La ligne MBTI est une traduction inspirée, non un test MBTI officiel.</label>
-        </div>
-      </section>
+<h1>PMP A4P – Rapport complet</h1>
 
-      <section id="testCard" class="card hidden">
-        <div class="test-top">
-          <div>
-            <h2 id="questionCounter">Question 1 / 136</h2>
-            <p id="dimensionBadge" class="badge">Activation</p>
-          </div>
-          <div class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
-        </div>
-        <div class="question-card">
-          <p id="questionText" class="question-text"></p>
-          <div class="scale-legend"><span>1 = Jamais</span><span>5 = Toujours</span></div>
-          <div id="scale" class="scale"></div>
-        </div>
-        <div class="nav-row">
-          <button id="prevBtn" class="btn btn-secondary">Précédent</button>
-          <div class="nav-right">
-            <button id="saveBtn" class="btn btn-secondary">Sauvegarder</button>
-            <button id="nextBtn" class="btn btn-primary">Suivant</button>
-          </div>
-        </div>
-      </section>
+<div class="card"><h2>Portrait mental</h2><p>
+Ce portrait mental décrit la manière dont la personne entre dans l’action, perçoit les situations et mobilise ses ressources dans les moments importants.
+Chaque individu possède une architecture mentale particulière. Certaines personnes fonctionnent par intensité d’action, d’autres par analyse, d’autres encore par sens et intuition.
+Ce rapport vise à mettre en lumière cette organisation afin de mieux comprendre comment la personne s’engage dans l’effort, gère la pression et apprend de ses expériences.
 
-      <section id="resultsCard" class="hidden">
-        <div class="card printable">
-          <div class="cover-top">
-            <img src="logo-a4p.svg" alt="A4P" class="logo report-logo" />
-            <div>
-              <div class="eyebrow">A4P — Rapport de restitution</div>
-              <h2>PMP A4P</h2>
-              <p class="subtitle">Profil Mental de Performance</p>
-            </div>
-          </div>
-          <p id="identityLine" class="muted"></p>
-          <div class="cover-actions screen-only">
-            <button id="printBtn" class="btn btn-primary">Imprimer / PDF</button>
-            <button id="exportJsonBtn" class="btn btn-secondary">Exporter JSON</button>
-            <button id="restartBtn" class="btn btn-secondary">Recommencer</button>
-          </div>
-        </div>
+Comprendre son fonctionnement mental permet souvent un effet de révélation. Beaucoup de sportifs découvrent qu’ils ne manquent pas de capacités mais qu’ils n’utilisent simplement pas leurs ressources de la manière la plus adaptée à leur profil.
 
-        <div class="card printable highlight-card">
-          <div class="highlight-grid">
-            <div>
-              <div class="highlight-label">Type cognitif inspiré MBTI</div>
-              <div id="mbtiTypeLine" class="highlight-value">—</div>
-            </div>
-            <div class="arrow">→</div>
-            <div>
-              <div class="highlight-label">Préférence motrice</div>
-              <div id="motorCodeLine" class="highlight-value">—</div>
-            </div>
-          </div>
-          <div id="motorExplain" class="muted explain-line"></div>
-        </div>
+Le portrait mental doit donc être lu comme une carte de navigation : il indique les forces naturelles du fonctionnement mental et les zones dans lesquelles un développement ciblé peut produire des gains importants.
+</p></div>
+<div class="card"><h2>Forces mentales</h2><p>
+Plusieurs forces mentales apparaissent dans ce profil.
 
-        <div class="results-grid">
-          <div class="card printable">
-            <h3>Carte mentale PMP</h3>
-            <canvas id="pmpRadar" width="560" height="560"></canvas>
-          </div>
-          <div class="card printable">
-            <h3>Synthèse du profil</h3>
-            <div class="profile-box">
-              <p class="profile-label">Profil principal</p>
-              <p id="mainProfile" class="profile-value">—</p>
-              <p class="profile-label">Profil secondaire</p>
-              <p id="secondaryProfile" class="profile-value secondary">—</p>
-              <p class="profile-label">Profil tertiaire</p>
-              <p id="tertiaryProfile" class="profile-value tertiary">—</p>
-            </div>
-            <div id="summaryText" class="narrative"></div>
-          </div>
-        </div>
+La première est la capacité d’engagement. Cela signifie que la personne possède une énergie orientée vers l’action et la progression. Lorsqu’un objectif est clair, elle peut mobiliser une quantité d’effort importante pour s’en rapprocher.
 
-        <div class="results-grid">
-          <div class="card printable">
-            <h3>Scores mentaux</h3>
-            <div id="scoreGrid" class="score-grid four"></div>
-          </div>
-          <div class="card printable">
-            <h3>Axes cognitifs et motricité</h3>
-            <div id="preferenceGrid" class="score-grid two-col"></div>
-          </div>
-        </div>
+Une deuxième force concerne la manière d’apprendre. Les personnes ayant ce type de profil transforment souvent les situations vécues en informations utiles pour progresser. Elles observent, analysent et ajustent progressivement leurs comportements.
 
-        <div class="results-grid three">
-          <div class="card printable">
-            <h3>Forces mentales</h3>
-            <div id="strengthsText" class="narrative"></div>
-          </div>
-          <div class="card printable">
-            <h3>Axes de progrès</h3>
-            <div id="progressText" class="narrative"></div>
-          </div>
-          <div class="card printable">
-            <h3>Plan d’action</h3>
-            <div id="planText" class="narrative"></div>
-          </div>
-        </div>
+Une troisième force réside dans la capacité à continuer malgré les obstacles. Les difficultés ne sont pas perçues uniquement comme des échecs mais comme des étapes du processus de progression.
+</p></div>
+<div class="card"><h2>Fonctionnement sous pression</h2><p>
+La réaction sous pression constitue un élément essentiel de la performance mentale.
 
-        <div class="results-grid three">
-          <div class="card printable">
-            <h3>Lecture jeune</h3>
-            <div id="playerSummary" class="narrative"></div>
-          </div>
-          <div class="card printable">
-            <h3>Lecture parents</h3>
-            <div id="parentSummary" class="narrative"></div>
-          </div>
-          <div class="card printable">
-            <h3>Lecture coach</h3>
-            <div id="coachSummary" class="narrative"></div>
-          </div>
-        </div>
+Certaines personnes voient leur niveau d’énergie augmenter dans les moments importants. D’autres ressentent une tension qui peut perturber leur lucidité ou leur précision.
 
-        <div class="card printable">
-          <h3>Cadre d’utilisation</h3>
-          <p class="muted">
-            Le type affiché est une <strong>traduction inspirée des axes MBTI</strong> à partir d’items dédiés.
-            Il ne s’agit pas d’un MBTI officiel. La correspondance motrice reprend la table MBTI → préférence motrice
-            de type <strong>ISTJ → D4</strong>, <strong>ENFP → R1</strong>, etc.
-          </p>
-        </div>
-      </section>
-    </main>
-  </div>
-  <script src="script.js"></script>
+Comprendre sa réaction naturelle à la pression permet d’installer des stratégies mentales adaptées : respiration, recentrage attentionnel, routines d’action ou gestion de l’erreur.
+</p></div>
+<div class="card"><h2>Profil d’apprentissage</h2><p>
+Le profil d’apprentissage décrit la manière dont la personne assimile le mieux les informations et progresse dans son activité.
+
+Certaines personnes apprennent surtout par répétition et sensation corporelle. D’autres progressent davantage par compréhension ou par exploration.
+
+Identifier ce mode d’apprentissage permet d’adapter l’entraînement, la pédagogie et la communication afin de créer un environnement favorable au développement des compétences.
+</p></div>
+<div class="card"><h2>Lecture Action Types</h2><p>
+La correspondance entre préférences cognitives et préférences motrices permet d’identifier des styles de mouvement et d’apprentissage spécifiques.
+
+Dans le modèle Action Types, chaque combinaison cognitive correspond à une organisation motrice particulière. Cette organisation influence la manière dont la personne perçoit le mouvement, s’oriente dans l’espace et coordonne ses actions.
+
+Comprendre cette préférence motrice peut aider les entraîneurs à adapter les consignes techniques, les démonstrations et les exercices afin de respecter la logique naturelle du mouvement.
+</p></div>
+<div class="card"><h2>Axes de progression</h2><p>
+Les axes de progression mentale ne doivent pas être interprétés comme des faiblesses.
+
+Ils indiquent simplement les domaines dans lesquels un développement spécifique peut améliorer la stabilité de la performance.
+
+Travailler ces dimensions permet généralement d’augmenter la constance dans l’effort, la gestion des erreurs et la capacité à rester lucide dans les moments importants.
+</p></div>
+<div class="card"><h2>Plan de progression mentale</h2><p>
+Le plan de progression mentale repose sur trois principes.
+
+Le premier consiste à installer des routines mentales simples avant les moments importants. Une respiration lente, un mot‑clé ou un geste repère permettent de stabiliser l’attention.
+
+Le deuxième consiste à transformer l’erreur en information. Chaque situation vécue devient alors un élément d’apprentissage.
+
+Le troisième vise à développer progressivement l’autonomie mentale afin que la personne puisse utiliser ces outils sans dépendre d’un accompagnement extérieur.
+</p></div>
+<div class="card"><h2>Lecture joueur</h2><p>
+Pour le sportif ou le joueur, ce rapport doit être lu comme une invitation à mieux se connaître.
+
+La performance ne dépend pas uniquement du talent ou du travail. Elle dépend aussi de la manière dont chacun utilise ses ressources mentales.
+
+En comprenant ton fonctionnement, tu peux développer des stratégies qui te correspondent vraiment et progresser avec plus de confiance.
+</p></div>
+<div class="card"><h2>Lecture parents</h2><p>
+Pour les parents, ce rapport permet de mieux comprendre la manière dont le jeune vit les situations de réussite, d’échec et de progression.
+
+Le rôle de l’environnement familial consiste avant tout à soutenir l’effort, valoriser la progression et permettre au jeune de développer progressivement son autonomie mentale.
+</p></div>
+<div class="card"><h2>Lecture coach</h2><p>
+Pour l’entraîneur ou le coach, ce rapport fournit des indications précieuses sur la manière d’adapter la pédagogie.
+
+Certains profils ont besoin de cadre et de structure, d’autres de liberté d’exploration. Comprendre cette différence permet souvent de débloquer des situations de stagnation et de favoriser une progression durable.
+</p></div>
+
 </body>
 </html>
